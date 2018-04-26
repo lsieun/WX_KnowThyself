@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.lsieun.knowthyself.dao.UserDao">
+    <!--实体映射-->
+    <resultMap id="UserMap" type="cn.lsieun.knowthyself.entity.User">
+        <result column="uid" property="uid" jdbcType="VARCHAR"/>
+        <result column="wxopenid" property="wxopenid" jdbcType="VARCHAR"/>
+        <result column="uname" property="uname" jdbcType="VARCHAR"/>
+        <result column="ugender" property="ugender" jdbcType="INTEGER"/>
+        <result column="uavatar" property="uavatar" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="last_edit_time" property="lastEditTime" jdbcType="TIMESTAMP"/>
+        <result column="is_valid" property="isValid" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="baseColumnList" >
+        uid,wxopenid,uname,ugender,uavatar,create_time,last_edit_time,is_valid
+    </sql>
+
+    <!-- 通用查询结果列-->
+    <sql id="sqlWhereClause" >
+        <!-- = -->
+        <if test="uid!=null and uid!=''">and uid = #{uid,jdbcType=VARCHAR}</if>
+        <if test="wxopenid!=null and wxopenid!=''">and wxopenid = #{wxopenid,jdbcType=VARCHAR}</if>
+        <if test="uname!=null and uname!=''">and uname = #{uname,jdbcType=VARCHAR}</if>
+        <if test="ugender!=null and ugender!=''">and ugender = #{ugender,jdbcType=INTEGER}</if>
+        <if test="uavatar!=null and uavatar!=''">and uavatar = #{uavatar,jdbcType=VARCHAR}</if>
+        <if test="createTime!=null">and create_time = #{createTime,jdbcType=TIMESTAMP}</if>
+        <if test="lastEditTime!=null">and last_edit_time = #{lastEditTime,jdbcType=TIMESTAMP}</if>
+        <if test="isValid!=null and isValid!=''">and is_valid = #{isValid,jdbcType=INTEGER}</if>
+        <!-- in -->
+        <if test="refIdList!=null and refIdList!=''">and ref_id in ( ${refIdList} )</if>
+        <if test="logoTypes!=null and logoTypes!=''">and logo_type in ( ${logoTypes} )</if>
+
+        <!-- like -->
+        <if test="urlLike != null and urlLike != ''">
+            <bind name="logoUrlLike" value="'%' + urlLike + '%'"/>
+            and logo_url like #{logoUrlLike}
+        </if>
+    </sql>
+
+    <sql id="sqlOrderByClause">
+        <if test="sortType!=null and sortType!=''">
+            <if test="sortType==1">
+                order by id asc
+            </if>
+            <if test="sortType==2">
+                order by id asc
+            </if>
+            <if test="sortType==3">
+                order by create_time asc
+            </if>
+            <if test="sortType==4">
+                order by create_time desc
+            </if>
+            <if test="sortType==5">
+                order by update_time asc
+            </if>
+            <if test="sortType==6">
+                order by update_time desc
+            </if>
+            <if test="sortType==7">
+                order by plan_start_time asc
+            </if>
+        </if>
+    </sql>
+
+    <!-- 查询（根据主键ID查询） -->
+    <select id="getById" resultMap="UserMap" parameterType="java.lang.String" >
+        SELECT
+        <include refid="baseColumnList" />
+        FROM tb_user
+        WHERE uid = #{uid:VARCHAR}
+    </select>
+
+    <!-- 添加 （动态匹配所有有值字段）-->
+    <insert id="insert" parameterType="java.util.HashMap" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO tb_user	(uid
+        <if test="wxopenid!=null">,wxopenid</if>
+        <if test="uname!=null and uname!=''">,uname</if>
+        <if test="ugender!=null">,ugender</if>
+        <if test="uavatar!=null">,uavatar</if>
+        <if test="createTime!=null">,create_time</if>
+        <if test="lastEditTime!=null">,last_edit_time</if>
+        <if test="isValid!=null">,is_valid</if>
+        <![CDATA[) values (]]> #{uid, jdbcType=VARCHAR}
+        <if test="wxopenid!=null">,#{wxopenid,jdbcType=VARCHAR}</if>
+        <if test="uname!=null and uname!=''">,#{uname,jdbcType=VARCHAR}</if>
+        <if test="ugender!=null">,#{ugender,jdbcType=INTEGER}</if>
+        <if test="uavatar!=null">,#{uavatar,jdbcType=VARCHAR}</if>
+        <if test="createTime!=null">,#{createTime,jdbcType=TIMESTAMP}</if>
+        <if test="lastEditTime!=null">,#{lastEditTime,jdbcType=TIMESTAMP}</if>
+        <if test="isValid!=null">,#{isValid,jdbcType=INTEGER}</if>
+        <![CDATA[)]]>
+    </insert>
+
+    <!-- 修 改-->
+    <update id="update" parameterType="java.util.HashMap">
+        UPDATE tb_user
+        <set>
+            <if test="uid!=null and uid!=''">uid = #{uid:VARCHAR},</if>
+            <if test="wxopenid!=null and wxopenid!=''">wxopenid = #{wxopenid:VARCHAR},</if>
+            <if test="uname!=null and uname!=''">uname = #{uname:VARCHAR},</if>
+            <if test="ugender!=null and ugender!=''">ugender = #{ugender:INTEGER},</if>
+            <if test="uavatar!=null and uavatar!=''">uavatar = #{uavatar:VARCHAR},</if>
+            <if test="createTime!=null">create_time = #{createTime:TIMESTAMP},</if>
+            <if test="lastEditTime!=null">last_edit_time = #{lastEditTime:TIMESTAMP},</if>
+            <if test="isValid!=null">is_valid = #{isValid:INTEGER},</if>
+        </set>
+        WHERE uid = #{uid:VARCHAR}
+    </update>
+
+    <delete id="delete" parameterType="java.util.HashMap">
+        DELETE FROM tb_user
+        WHERE uid = #{uid:VARCHAR}
+    </delete>
+
+    <select id="getList" parameterType="java.util.HashMap" resultMap="UserMap">
+        SELECT
+        <include refid="baseColumnList" />
+        FROM tb_user
+        WHERE 1=1
+        <include refid="sqlWhereClause" />
+        <include refid="sqlOrderByClause" />
+        LIMIT ${firstResult},${maxResult}
+    </select>
+
+    <!-- 查询getCount -->
+    <select id="getCount" parameterType="java.util.HashMap" resultType="java.lang.Integer" >
+        SELECT count(1)
+        FROM tb_user
+        WHERE 1=1
+        <include refid="sqlWhereClause" />
+    </select>
+
+</mapper>
