@@ -1,0 +1,102 @@
+﻿<%@ Template Language="C#" TargetLanguage="Java" Inherits="CodeTemplate" ResponseEncoding="utf-8" Description="根据一张数据表生成实体类"%>
+
+<%@ Assembly Name="SchemaExplorer" %>
+<%@ Import Namespace="SchemaExplorer" %>
+
+<%-- 数据表 --%>
+<%@ Property Name="Table" Type="TableSchema" DeepLoad="True" Category="Database" Optional="False"%>
+<%@ Property Name="packageName" Default="" Category="package" Type="System.String" %>
+<!-- #include file="../zealous_common/CommonScript.cst" -->
+
+<% string clazzName = processUnderScoreName(Table.Name); %>
+package <%= packageName %>;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
+
+@Api(tags="Z-TODO-RestfulAPI")
+@RestController
+@RequestMapping(value="<%= getPath(Table.Name) %>")
+@SuppressWarnings("rawtypes")
+public class <%= clazzName %>Controller{
+
+	//private static final Logger logger = Logger.getLogger(MedDemandResource.class);
+
+	@Autowired
+	<%= clazzName %>Service service;
+
+    @ApiOperation(value="create方法", notes="")
+    @RequestMapping(value="/create", method= RequestMethod.POST)
+	public BaseResponseObject create(Map paramMap) {
+		return service.create(paramMap);
+	}
+
+    @ApiOperation(value="update方法", notes="")
+    @RequestMapping(value="/update", method=RequestMethod.PUT)
+	public BaseResponseObject update(Map paramMap) {
+		return service.update(paramMap);
+	}
+
+    @ApiOperation(value="getById方法", notes="")
+    @RequestMapping(value="/getById/{id}", method= RequestMethod.GET)
+	public <%= clazzName %> getById(@PathParam("id") Long id) {
+		return service.getById(id);
+	}
+
+    @ApiOperation(value="getPageList方法", notes="")
+    @RequestMapping(value="/getPageList", method= RequestMethod.GET)
+	public Page getPageList(@QueryParam("queryJson") String queryJson) {
+		return service.getPageList(ConvertUtil.jsonStringToHashMap(queryJson));
+	}
+
+    @ApiOperation(value="getList方法", notes="")
+    @RequestMapping(value="/getList", method= RequestMethod.GET)
+	public List<<%= clazzName %>> getList(@QueryParam("queryJson") String queryJson) {
+		return service.getList(ConvertUtil.jsonStringToHashMap(queryJson));
+	}
+
+    @ApiOperation(value="getCount方法", notes="")
+    @RequestMapping(value="/getCount", method= RequestMethod.GET)
+	public Integer getCount(@QueryParam("queryJson") String queryJson) {
+		return service.getCount(ConvertUtil.jsonStringToHashMap(queryJson));
+	}
+
+    @ApiOperation(value="create2方法", notes="")
+    @RequestMapping(value="/v2/create", method= RequestMethod.POST)
+	public BaseResponseObject create2(Map paramMap) {
+		return service.create2(paramMap);
+	}
+
+    @ApiOperation(value="update2方法", notes="")
+    @RequestMapping(value="/v2/update", method=RequestMethod.PUT)
+	public BaseResponseObject update2(Map paramMap) {
+		return service.update2(paramMap);
+	}
+
+    @ApiOperation(value="getMapById方法", notes="")
+    @RequestMapping(value="/v2/getMapById", method= RequestMethod.GET)
+	public BaseResponseObject getMapById(@QueryParam("queryJson") String queryJson) {
+		return service.getMapById(ConvertUtil.jsonStringToHashMap(queryJson));
+	}
+	
+    @ApiOperation(value="getMapList方法", notes="")
+    @RequestMapping(value="/v2/getMapList", method= RequestMethod.GET)
+	public BaseResponseObject getMapList(@QueryParam("queryJson") String queryJson) {
+		return service.getMapList(ConvertUtil.objToHashMap(queryJson));
+	}
+
+}

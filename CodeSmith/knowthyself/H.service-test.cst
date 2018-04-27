@@ -1,0 +1,105 @@
+﻿<%@ Template Language="C#" TargetLanguage="Java" Inherits="CodeTemplate" ResponseEncoding="utf-8" Description="根据一张数据表生成实体类"%>
+
+<%@ Assembly Name="SchemaExplorer" %>
+<%@ Import Namespace="SchemaExplorer" %>
+
+<%-- 数据表 --%>
+<%@ Property Name="Table" Type="TableSchema" DeepLoad="True" Category="DB" Optional="False"%>
+<%@ Property Name="packageName" Default="" Category="Java" Type="System.String" Optional="True"%>
+<!-- #include file="../zealous_common/CommonScript.cst" -->
+<% string clazzName = processUnderScoreName(Table.Name); %>
+package <%= packageName %>;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import com.allin.broadcast.Application;
+import com.allin.broadcast.model.BaseResponseObject;
+import com.allin.broadcast.model.<%= clazzName %>;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@SpringApplicationConfiguration(classes = Application.class)
+@WebAppConfiguration
+public class <%= clazzName %>ServiceTest {
+    private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
+    private final Gson gson = new GsonBuilder().serializeNulls().setPrettyPrinting().create();
+
+	@Autowired
+	private <%= clazzName %>Service service;
+    
+    private Map<String,String> paramMap;
+	
+	@Before
+	public void setUp(){
+		paramMap = new HashMap<String,String>();
+	}
+    
+	@After
+	public void tearDown() throws Exception {
+	}    
+	
+	@Test
+	public void testCreate() {
+        <% foreach(ColumnSchema col in Table.Columns) {%>
+        <% string fieldType = GetJavaVariableType(col); %>
+        <% string fieldName = getFieldName(col.Name); %>
+        <% string getterName = getGetterName(col.Name); %>
+        <% string setterName = getSetterName(col.Name); %>
+        paramMap.put("<%= fieldName %>","");
+        <%} %>    
+		
+		BaseResponseObject result = service.create(paramMap);
+        System.out.println(gson.toJson(result));
+	}
+
+	@Test
+	public void testUpdate() {
+        <% foreach(ColumnSchema col in Table.Columns) {%>
+        <% string fieldType = GetJavaVariableType(col); %>
+        <% string fieldName = getFieldName(col.Name); %>
+        <% string getterName = getGetterName(col.Name); %>
+        <% string setterName = getSetterName(col.Name); %>
+        paramMap.put("<%= fieldName %>", null);
+        <%} %>   		
+        
+		BaseResponseObject result = service.update(paramMap);
+		System.out.println(gson.toJson(result));
+	}
+
+	@Test
+	public void testGetById() {
+		<%= clazzName %> result = service.getById(1L);
+		System.out.println(gson.toJson(result));
+	}
+
+	@Test
+	public void testGetList() {
+		paramMap.put("isValid", "1");
+        paramMap.put("firstResult", "0");
+        paramMap.put("maxResult", "10");
+		List<<%= clazzName %>> list = service.getList(paramMap);
+		System.out.println(gson.toJson(list));
+	}
+
+	@Test
+	public void testGetCount() {
+		paramMap.put("isValid", "1");
+		Integer count = service.getCount(paramMap);
+		System.out.println("count: " + count);
+	}
+
+}

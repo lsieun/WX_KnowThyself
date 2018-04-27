@@ -1,0 +1,142 @@
+﻿ <script runat="template">
+    public string getPackageName(string under_score_name){
+        string[] array = under_score_name.Split('_');
+        string result = "";
+        for(int i = 0;i<(array.Length -1);i++){
+            result += array[i] + ".";
+        }
+        result += array[array.Length -1];
+        return result;
+    }  
+    
+    public string getParentPackageName(string under_score_name){
+        string[] array = under_score_name.Split('_');
+        string result = "";
+        for(int i = 0;i<(array.Length -1);i++){
+            result += array[i] + ".";
+        }
+        result += array[array.Length -1];
+        return result;
+    }     
+
+    public string processUnderScoreName(string under_score_name, string oldStr, string newStr){
+        under_score_name = under_score_name.Replace(oldStr, newStr);
+        return processUnderScoreName(under_score_name);
+    }
+    
+    public string processUnderScoreName(string under_score_name){
+        string[] array = under_score_name.Split('_');
+        string result = "";
+        for(int i = 0;i<array.Length;i++){
+            string str = getPascalName(array[i]);
+            result += str;
+        }
+        return result;
+    }
+    
+    public string getDotSeparatedName(string under_score_name){
+        string result = under_score_name.Replace("_",".");
+        return result;
+    }    
+    
+    public string getPath(string under_score_name){
+        string[] array = under_score_name.Split('_');
+        string result = "";
+        for(int i = 0;i<array.Length;i++){
+            result += "/" + array[i];
+        }
+        return result;
+    }    
+
+    //例如：PrintMessage
+    public string getPascalName(string str)
+    {
+        return str.Substring(0,1).ToUpper()+str.Substring(1);
+    }
+        
+    //例如：printMessage
+    public string getCamelCaseName(string str){
+        return str.Substring(0,1).ToLower() + str.Substring(1);
+    }
+    
+    public string getFieldName(string under_score_name){
+        string pascalName = processUnderScoreName(under_score_name);
+        return getCamelCaseName(pascalName);
+    }
+    
+    public string getGetterName(string under_score_name){
+        string pascalName = processUnderScoreName(under_score_name);
+        return "get" + pascalName;
+    }
+    
+    public string getSetterName(string under_score_name){
+        string pascalName = processUnderScoreName(under_score_name);
+        return "set" + pascalName;
+    }
+    
+
+    public string GetJavaVariableType(ColumnSchema column)
+    {
+        switch(column.DataType)
+        {
+            case DbType.AnsiString: return "string";
+            case DbType.AnsiStringFixedLength: return "string";
+            case DbType.Binary: return "byte[]";
+            case DbType.Boolean: return "bool";
+            case DbType.Byte: return "int";
+            case DbType.Currency: return "decimal";
+            case DbType.Date: return "DataTime";
+            case DbType.DateTime: return "Date";
+            case DbType.Decimal: return "decimal";
+            case DbType.Double: return "double";
+            case DbType.Guid: return "Guid";
+            case DbType.Int16: return "short";
+            case DbType.Int32: return "Integer";
+            case DbType.Int64: return "Long";
+            case DbType.Object: return "object";
+            case DbType.SByte: return "sbyte";
+            case DbType.Single: return "float";
+            case DbType.String: return "String";
+            case DbType.StringFixedLength: return "string";
+            case DbType.Time: return "TimeSpan";
+            case DbType.UInt16: return "ushort";
+            case DbType.UInt32: return "uint";
+            case DbType.UInt64: return "ulong";
+            case DbType.VarNumeric: return "decimal";
+        }
+
+        return null;
+    }  
+    
+    public string getJDBCType(ColumnSchema column){
+        switch(column.DataType)
+        {
+            case DbType.AnsiString: return "string";
+            case DbType.AnsiStringFixedLength: return "string";
+            case DbType.Binary: return "byte[]";
+            case DbType.Boolean: return "bool";
+            case DbType.Byte: return "int";
+            case DbType.Currency: return "decimal";
+            case DbType.Date: return "DataTime";
+            case DbType.DateTime: return "TIMESTAMP";
+            case DbType.Decimal: return "decimal";
+            case DbType.Double: return "double";
+            case DbType.Guid: return "Guid";
+            case DbType.Int16: return "short";
+            case DbType.Int32: return "INTEGER";
+            case DbType.Int64: return "BIGINT";
+            case DbType.Object: return "object";
+            case DbType.SByte: return "sbyte";
+            case DbType.Single: return "float";
+            case DbType.String: return "VARCHAR";
+            case DbType.StringFixedLength: return "string";
+            case DbType.Time: return "TimeSpan";
+            case DbType.UInt16: return "ushort";
+            case DbType.UInt32: return "INTEGER";
+            case DbType.UInt64: return "BIGINT";
+            case DbType.VarNumeric: return "decimal";
+        }
+
+        return null;
+    }    
+</script>

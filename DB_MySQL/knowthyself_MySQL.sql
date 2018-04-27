@@ -35,4 +35,6 @@ CREATE TABLE `tb_user`(
 
 SELECT * FROM tb_user WHERE uid = '438747439013294080';
 
+SELECT * FROM tb_user;
+
 SELECT NOW();

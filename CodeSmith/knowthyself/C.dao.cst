@@ -1,0 +1,19 @@
+﻿<%@ Template Language="C#" TargetLanguage="Java" Inherits="CodeTemplate" ResponseEncoding="utf-8" Description="根据一张数据表生成实体类"%>
+
+<%@ Assembly Name="SchemaExplorer" %>
+<%@ Import Namespace="SchemaExplorer" %>
+
+<%-- 数据表 --%>
+<%@ Property Name="Table" Type="TableSchema" DeepLoad="True" Category="Database" Optional="False"%>
+<%@ Property Name="packageName" Default="cn.lsieun.knowthyself.dao" Category="package" Type="System.String" %>
+<!-- #include file="../zealous_common/CommonScript.cst" -->
+
+<% string clazzName = processUnderScoreName(Table.Name, "tb_", ""); %>
+package <%= packageName %>;
+
+import cn.lsieun.knowthyself.entity.<%= clazzName %>;
+import org.springframework.stereotype.Component;
+
+public interface <%= clazzName %>Dao extends CommonDao<<%= clazzName %>>{
+	 
+}

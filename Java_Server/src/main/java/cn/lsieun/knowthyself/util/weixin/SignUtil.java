@@ -45,6 +45,28 @@ public class SignUtil {
         return tmpStr != null ? tmpStr.equals(signature.toUpperCase()) : false;
     }
 
+    public static String getSignature(String timestamp, String nonce){
+        String[] arr = new String[]{token, timestamp, nonce};
+        // 将token、timestamp、nonce三个参数进行字典序排序
+        Arrays.sort(arr);
+        StringBuilder content = new StringBuilder();
+        for(int i=0; i < arr.length; i++){
+            content.append(arr[i]);
+        }
+        MessageDigest md = null;
+        String signature = null;
+
+        try {
+            md = MessageDigest.getInstance("SHA-1");
+            // 将三个参数字符串拼接成一个字符串进行sha1加密
+            byte[] digest = md.digest(content.toString().getBytes());
+            signature = byteToStr(digest);
+        } catch (NoSuchAlgorithmException ex) {
+            ex.printStackTrace();
+        }
+        return signature;
+    }
+
     /**
      * 将字节数组转换为十六进制字符串
      * @param byteArray

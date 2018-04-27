@@ -1,0 +1,34 @@
+﻿<%@ Template Language="C#" TargetLanguage="Java" Inherits="CodeTemplate" ResponseEncoding="utf-8" Description="根据一张数据表生成实体类"%>
+
+<%@ Assembly Name="SchemaExplorer" %>
+<%@ Import Namespace="SchemaExplorer" %>
+
+<%-- 数据表 --%>
+<%@ Property Name="Table" Type="TableSchema" DeepLoad="True" Category="DB" Optional="False"%>
+<%@ Property Name="packageName" Default="cn.lsieun.knowthyself.service" Category="Java" Type="System.String" Optional="True"%>
+<!-- #include file="../zealous_common/CommonScript.cst" -->
+
+<% string clazzName = processUnderScoreName(Table.Name, "tb_", ""); %>
+package <%= getPackageName(Table.Name) %>;
+
+import java.util.List;
+import java.util.Map;
+
+import com.allin.broadcast.model.BaseResponseObject;
+import com.allin.broadcast.model.<%= clazzName %>;
+
+
+@SuppressWarnings("rawtypes")
+public interface <%= clazzName %>Service {
+
+    BaseResponseObject create(Map paramMap);
+
+    BaseResponseObject update(Map paramMap);
+
+    <%= clazzName %> getById(Long id);
+
+    List<<%= clazzName %>> getList(Map paramMap);
+
+    Integer getCount(Map paramMap);
+
+}

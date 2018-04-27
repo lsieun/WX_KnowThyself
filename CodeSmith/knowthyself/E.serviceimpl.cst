@@ -1,0 +1,211 @@
+﻿<%@ Template Language="C#" TargetLanguage="Java" Inherits="CodeTemplate" ResponseEncoding="utf-8" Description="根据一张数据表生成实体类"%>
+
+<%@ Assembly Name="SchemaExplorer" %>
+<%@ Import Namespace="SchemaExplorer" %>
+
+<%-- 数据表 --%>
+<%@ Property Name="Table" Type="TableSchema" DeepLoad="True" Category="DB" Optional="False"%>
+<%@ Property Name="packageName" Default="" Category="Java" Type="System.String" Optional="True"%>
+<!-- #include file="../zealous_common/CommonScript.cst" -->
+
+<% string clazzName = processUnderScoreName(Table.Name); %>
+package <%= packageName %>;
+
+import java.util.List;
+import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.allin.broadcast.mapper.<%= clazzName %>Mapper;
+import com.allin.broadcast.model.BaseResponseObject;
+import com.allin.broadcast.model.<%= clazzName %>;
+import <%= getParentPackageName(packageName) %>.<%= clazzName %>Service;
+import com.allin.broadcast.util.StringTool;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+
+@Service("<%= getCamelCaseName(clazzName) %>Service")
+@SuppressWarnings({"rawtypes","unchecked"})
+public class <%= clazzName %>ServiceImpl implements <%= clazzName %>Service{
+
+    private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
+    private final Gson gson = new GsonBuilder().serializeNulls().setPrettyPrinting().create();
+
+    @Autowired 
+    <%= clazzName %>Mapper dao; 
+
+    @Override
+    public BaseResponseObject create(Map paramMap) {
+        BaseResponseObject responseObject = new BaseResponseObject(Boolean.FALSE,"","");
+        // region log
+        if(LOGGER.isInfoEnabled()) {
+            LOGGER.info("<%= clazzName %>ServiceImpl==>create==>paramMap: " + gson.toJson(paramMap));
+        }
+        // endregion        
+        try
+        {
+            Long primaryKeyId = System.currentTimeMillis();
+			paramMap.put("xxxId", primaryKeyId); //FIXME: RK这里需要修改XXX          
+            // region log
+            if(LOGGER.isInfoEnabled()) {
+                LOGGER.info("<%= clazzName %>ServiceImpl===>create==>paramMap==>" + gson.toJson(paramMap));
+            }
+            // endregion
+            
+            Long count = dao.insert(paramMap);
+            Long pkId = Long.parseLong(StringTool.getMapString(paramMap, "id"));
+            // region log
+            if(LOGGER.isInfoEnabled()) {
+                LOGGER.info("<%= clazzName %>ServiceImpl==>create==>count: " + count);
+                LOGGER.info("<%= clazzName %>ServiceImpl==>create==>pkId: " + pkId);
+            }
+            // endregion
+            responseObject.setResponsePk(pkId);
+			responseObject.setResponseMessage("SUCCESS");
+			responseObject.setResponseStatus(Boolean.TRUE);
+        } catch (Exception ex){
+            LOGGER.error("<%= clazzName %>ServiceImpl===>create==>Exception==>", ex);
+            responseObject.setResponseMessage("ERROR");
+			responseObject.setResponseStatus(Boolean.FALSE);
+        }
+        // region log
+        if(LOGGER.isInfoEnabled()) {
+            LOGGER.info("<%= clazzName %>ServiceImpl===>create==>responseObject==>" + gson.toJson(responseObject));
+        }
+        // endregion
+        return responseObject;
+    }
+	 
+	@Override
+    public BaseResponseObject update(Map paramMap) {
+        BaseResponseObject responseObject = new BaseResponseObject(Boolean.FALSE,"","");
+        // region log
+        if(LOGGER.isInfoEnabled()) {
+            LOGGER.info("<%= clazzName %>ServiceImpl===>update==>paramMap==>" + gson.toJson(paramMap));
+        }
+        // endregion
+
+		try {
+            dao.update(paramMap);
+			responseObject.setResponseMessage("SUCCESS");
+			responseObject.setResponseStatus(Boolean.TRUE);
+		} catch (Exception ex) {
+            LOGGER.error("<%= clazzName %>ServiceImpl===>update==>Exception==>", ex);
+            responseObject.setResponseMessage("ERROR");
+			responseObject.setResponseStatus(Boolean.FALSE);
+		}
+		// region log
+        if(LOGGER.isInfoEnabled()) {
+            LOGGER.info("<%= clazzName %>ServiceImpl===>update==>responseObject==>" + gson.toJson(responseObject));
+        }
+        // endregion
+		return responseObject;
+	}
+
+	@Override
+	public <%= clazzName %> getById(Long id) {
+        // region log
+		if(LOGGER.isInfoEnabled()) {
+            LOGGER.info("<%= clazzName %>ServiceImpl===>getById==>id==>" + id);
+        }
+        // endregion
+        return dao.getById(id);
+	}
+
+	@Override
+	public List<<%= clazzName %>> getList(Map paramMap) {
+        // region log
+		if(LOGGER.isInfoEnabled()) {
+            LOGGER.info("<%= clazzName %>ServiceImpl===>getList==>paramMap==>" + gson.toJson(paramMap));
+        }
+        // endregion
+        return dao.getList(paramMap);
+	}
+
+	@Override
+    public Integer getCount(Map paramMap) {
+        // region log
+		if(LOGGER.isInfoEnabled()) {
+            LOGGER.info("<%= clazzName %>ServiceImpl===>getCount==>paramMap==>" + gson.toJson(paramMap));
+        }
+        // endregion
+        return dao.getCount(paramMap);
+	}
+    
+    @Override
+    public BaseResponseObject getXXX(Map paramMap) {
+        BaseResponseObject responseObject = new BaseResponseObject(Boolean.FALSE,"","");
+        // region log
+        if(LOGGER.isInfoEnabled()) {
+            LOGGER.info("<%= clazzName %>ServiceImpl==>getXXX==>paramMap: " + gson.toJson(paramMap));
+        }
+        // endregion        
+        try
+        {
+            /*
+            （1）读取输入参数
+            （2）对参数进行校验；如果不合法，则提前返回
+            （3）处理业务逻辑
+             */
+             
+            // region (1) 检查参数，如果不合法，则提前返回
+            String customerId = StringTool.getMapString(paramMap, "customerId");     //必传参数，否则提前返回
+            String customerName = StringTool.getMapString(paramMap, "customerName"); //必传参数，否则提前返回
+            String title = StringTool.getMapString(paramMap, "title");
+            String notice = StringTool.getMapString(paramMap, "notice");
+            String type = StringTool.getMapString(paramMap, "type"); //必传参数，直播类型(1-手术直播，2-学术会议，3-产品推荐，4-器械操作，5-手术解说，6-病例讨论)
+            String startTime = StringTool.getMapString(paramMap, "startTime"); //必传参数，否则提前返回
+            String endTime = StringTool.getMapString(paramMap, "endTime"); //必传参数，否则提前返回
+            String visitSiteId = StringTool.getMapString(paramMap, "visitSiteId"); //FIXME: 是否考虑了站点信息
+            // endregion
+
+            // region （2）参数有效性校验，如果不合法，则提前返回
+            if(StringUtils.isBlank(customerId)){
+                responseObject.setResponseStatus(Boolean.FALSE);
+                responseObject.setResponseCode("NO");
+                responseObject.setResponseMessage("customerId不能为空");
+                // region log
+                if(LOGGER.isInfoEnabled()) {
+                    LOGGER.info("PersonalLivePlanServiceImpl===>getXXX==>responseObject==>" + gson.toJson(responseObject));
+                }
+                // endregion
+                return responseObject;
+            }
+            // endregion             
+            Long primaryKeyId = System.currentTimeMillis();
+			paramMap.put("xxxId", primaryKeyId); //FIXME: RK这里需要修改XXX          
+            // region log
+            if(LOGGER.isInfoEnabled()) {
+                LOGGER.info("<%= clazzName %>ServiceImpl===>getXXX==>paramMap==>" + gson.toJson(paramMap));
+            }
+            // endregion
+            
+            Long count = dao.insert(paramMap);
+            Long pkId = Long.parseLong(StringTool.getMapString(paramMap, "id"));
+            // region log
+            if(LOGGER.isInfoEnabled()) {
+                LOGGER.info("<%= clazzName %>ServiceImpl==>getXXX==>count: " + count);
+                LOGGER.info("<%= clazzName %>ServiceImpl==>getXXX==>pkId: " + pkId);
+            }
+            // endregion
+            responseObject.setResponsePk(pkId);
+			responseObject.setResponseMessage("SUCCESS");
+			responseObject.setResponseStatus(Boolean.TRUE);
+        } catch (Exception ex){
+            LOGGER.error("<%= clazzName %>ServiceImpl===>getXXX==>Exception==>", ex);
+            responseObject.setResponseMessage("ERROR");
+			responseObject.setResponseStatus(Boolean.FALSE);
+        }
+        // region log
+        if(LOGGER.isInfoEnabled()) {
+            LOGGER.info("<%= clazzName %>ServiceImpl===>getXXX==>responseObject==>" + gson.toJson(responseObject));
+        }
+        // endregion
+        return responseObject;
+    }    
+
+}

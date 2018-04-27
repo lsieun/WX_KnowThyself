@@ -1,0 +1,155 @@
+﻿<%@ Template Language="C#" TargetLanguage="XML" Inherits="CodeTemplate" ResponseEncoding="utf-8" Description="根据一张数据表生成实体类"%>
+
+<%@ Assembly Name="SchemaExplorer" %>
+<%@ Import Namespace="SchemaExplorer" %>
+
+<%-- 数据表 --%>
+<%@ Property Name="Table" Type="TableSchema" DeepLoad="True" Category="Database" Optional="False"%>
+<%@ Property Name="strUpdateExceptionColumns" Default="" Description="xxx_id" Category="Database" Type="System.String" Optional="False"%>
+<%@ Property Name="entityFullName" Default="" Category="Entity" Type="System.String" %>
+<!-- #include file="../zealous_common/CommonScript.cst" -->
+<% string clazzName = processUnderScoreName(Table.Name, "tb_", ""); %>
+<% 
+    string[] updateExceptionColumns = strUpdateExceptionColumns.Split(new string[]{"|"},StringSplitOptions.RemoveEmptyEntries); 
+    string moreQueryParameter = ""; 
+    for(int i=0;i<updateExceptionColumns.Length;i++){
+        moreQueryParameter += " OR " + updateExceptionColumns[i] + " = #{" + getFieldName(updateExceptionColumns[i]) + ":BIGINT}";
+    } 
+%>
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.lsieun.knowthyself.dao.<%= clazzName %>Dao">
+    <!--实体映射-->
+    <resultMap id="<%= clazzName %>Map" type="cn.lsieun.knowthyself.entity.<%= clazzName %>">
+        <% foreach(ColumnSchema col in Table.Columns) {%>
+        <% string dbType = getJDBCType(col); %>
+        <% string fieldName = getFieldName(col.Name); %>
+		<result column="<%= col.Name %>" property="<%= fieldName %>" jdbcType="<%= dbType %>"/>
+        <%} %>
+    </resultMap>
+    
+    <% string fields = ""; %>
+    <% foreach(ColumnSchema col in Table.Columns) {%>
+    <% fields = fields + col.Name + ","; %>
+    <%} %>
+    <% fields = fields.Substring(0,fields.Length-1); %>
+    <sql id="baseColumnList" >
+        <%= fields %>
+    </sql>
+
+    <!-- 通用查询结果列-->
+    <sql id="sqlWhereClause" >
+        <!-- = -->
+        <% foreach(ColumnSchema col in Table.Columns) {%>
+        <% string dbType = getJDBCType(col); %>
+        <% string fieldName = getFieldName(col.Name); %>
+        <if test="<%= fieldName %>!=null and <%= fieldName %>!=''">and <%= col.Name %> = #{<%= fieldName %>,jdbcType=<%= dbType %>}</if>
+        <%} %> 
+        <!-- in -->
+        <if test="refIdList!=null and refIdList!=''">and ref_id in ( ${refIdList} )</if>
+        <if test="logoTypes!=null and logoTypes!=''">and logo_type in ( ${logoTypes} )</if>
+
+        <!-- like -->
+        <if test="urlLike != null and urlLike != ''">
+            <bind name="logoUrlLike" value="'%' + urlLike + '%'"/>
+            and logo_url like #{logoUrlLike}
+        </if>
+    </sql>
+    
+	<sql id="sqlOrderByClause">
+	    <if test="sortType!=null and sortType!=''">
+            <if test="sortType==1">
+                order by id asc
+            </if>
+            <if test="sortType==2">
+                order by id asc
+            </if>
+            <if test="sortType==3">
+                order by create_time asc
+            </if>
+            <if test="sortType==4">
+                order by create_time desc
+            </if>
+            <if test="sortType==5">
+                order by update_time asc
+            </if>
+            <if test="sortType==6">
+                order by update_time desc
+            </if>
+            <if test="sortType==7">
+                order by plan_start_time asc
+            </if>     
+        </if>
+	</sql>      
+
+    <!-- 查询（根据主键ID查询） -->
+    <select id="getById" resultMap="<%= clazzName %>Map" parameterType="java.lang.Long" >
+        SELECT 
+            <include refid="baseColumnList" />
+        FROM <%= Table.Name %>
+        WHERE id = #{id,jdbcType=BIGINT} <%= moreQueryParameter %>
+    </select>
+
+    <!-- 添加 （动态匹配所有有值字段）-->
+    <insert id="insert" parameterType="java.util.HashMap" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO <%= Table.Name %>	(id
+        <% foreach(ColumnSchema col in Table.Columns) {%>
+        <% string fieldName = getFieldName(col.Name); %>
+        <% if("id".Equals(col.Name.ToLower())) continue; %>
+            <if test="<%= fieldName %>!=null and <%= fieldName %>!=''">,<%= col.Name %></if>
+        <%} %>
+		<![CDATA[) values (]]> #{id, jdbcType=BIGINT}
+            <% foreach(ColumnSchema col in Table.Columns) {%>
+            <% string dbType = getJDBCType(col); %>
+            <% string fieldName = getFieldName(col.Name); %>
+            <% if("id".Equals(col.Name.ToLower())) continue; %>
+            <if test="<%= fieldName %>!=null and <%= fieldName %>!=''">,#{<%= fieldName %>,jdbcType=<%= dbType %>}</if>
+            <%} %>		
+		<![CDATA[)]]>
+    	<!-- selectKey的查询方法 -->
+    	<selectKey keyProperty="id" resultType="long" order="AFTER">
+    	    SELECT LAST_INSERT_ID() AS id
+    	</selectKey>
+    </insert>
+
+    <!-- 修 改-->
+    <update id="update" parameterType="java.util.HashMap">
+	    UPDATE <%= Table.Name %>
+ 		<set>
+            <% foreach(ColumnSchema col in Table.Columns) {%>
+            <% string dbType = getJDBCType(col); %>
+            <% string fieldName = getFieldName(col.Name); %>
+            <% if("id".Equals(col.Name.ToLower())) continue; %>
+            <% if("update_time".Equals(col.Name.ToLower())) {%>
+            <if test="<%= fieldName %>!=null and <%= fieldName %>!=''"><%= col.Name %> = NOW(),</if>
+            <% continue; }%>
+            <if test="<%= fieldName %>!=null and <%= fieldName %>!=''"><%= col.Name %> = #{<%= fieldName %>:<%= dbType %>},</if>
+            <%} %>
+ 		</set>
+	    WHERE id = #{id, jdbcType=BIGINT} <%= moreQueryParameter %>
+    </update>
+
+    <delete id="deleteById" parameterType="java.util.HashMap">
+        DELETE FROM <%= Table.Name %>
+        WHERE id = #{id, jdbcType=BIGINT}
+    </delete>
+
+    <select id="getList" parameterType="java.util.HashMap" resultMap="<%= clazzName %>Map">
+	    SELECT 
+            <include refid="baseColumnList" />
+		FROM <%= Table.Name %>
+		WHERE 1=1 
+		<include refid="sqlWhereClause" />
+        <include refid="sqlOrderByClause" />
+        LIMIT ${firstResult},${maxResult}
+    </select>
+
+    <!-- 查询getCount -->
+    <select id="getCount" parameterType="java.util.HashMap" resultType="java.lang.Integer" >
+	    SELECT count(1) 
+		FROM <%= Table.Name %>
+		WHERE 1=1 
+	    <include refid="sqlWhereClause" />
+    </select>
+
+</mapper>

@@ -1,0 +1,38 @@
+﻿<%@ Template Language="C#" TargetLanguage="Java" Inherits="CodeTemplate" ResponseEncoding="utf-8" Description="根据一张数据表生成实体类"%>
+
+<%@ Assembly Name="SchemaExplorer" %>
+<%@ Import Namespace="SchemaExplorer" %>
+
+<%-- 数据表 --%>
+<%@ Property Name="Table" Type="TableSchema" DeepLoad="True" Category="Database" Optional="False"%>
+<%@ Property Name="packageName" Default="cn.lsieun.knowthyself.entity" Category="package" Type="System.String" %>
+<!-- #include file="../zealous_common/CommonScript.cst" -->
+<% string clazzName = processUnderScoreName(Table.Name, "tb_", ""); %>
+
+package <%= packageName %>;
+
+import java.util.Date;
+
+@SuppressWarnings("serial")
+public class <%= clazzName %> extends CommonEntity{
+
+        <% foreach(ColumnSchema col in Table.Columns) {%>
+        <% string fieldType = GetJavaVariableType(col); %>
+        <% string fieldName = getFieldName(col.Name); %>
+        private <%= fieldType %> <%= fieldName %>;
+        <%} %>
+        
+        <% foreach(ColumnSchema col in Table.Columns) {%>
+        <% string fieldType = GetJavaVariableType(col); %>
+        <% string fieldName = getFieldName(col.Name); %>
+        <% string getterName = getGetterName(col.Name); %>
+        <% string setterName = getSetterName(col.Name); %>
+        public <%= fieldType %> <%= getterName %>(){
+            return this.<%= fieldName %>;
+        }
+        public void <%= setterName %>(<%= fieldType %> <%= fieldName %>){
+            this.<%= fieldName %> = <%= fieldName %>;
+        }
+        
+        <%} %>        
+}
