@@ -3,7 +3,17 @@ package cn.lsieun.knowthyself.entity;
 import java.io.Serializable;
 
 public class CommonEntity implements Serializable {
-//    private String timestamp;
+    public String  code;
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    //    private String timestamp;
 //    private String nonce;
 //    private String signature;
 
