@@ -2,7 +2,7 @@ package cn.lsieun.knowthyself.service;
 
 import cn.lsieun.knowthyself.dto.UserDTO;
 import cn.lsieun.knowthyself.entity.User;
-import cn.lsieun.knowthyself.util.snowflake.SnowflakeIdWorker;
+import cn.lsieun.knowthyself.util.json.JSONUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
@@ -10,15 +10,9 @@ import org.junit.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 
 
@@ -50,7 +44,7 @@ public class UserServiceTest {
 
         user.setUgender((int)(Math.random() * 3));
         user.setUavatar("uavatar");
-        UserDTO dto = service.signin(user);
+        UserDTO dto = service.signup(user);
 
         String json = objectWriter.writeValueAsString(dto);
         System.out.println(json);
@@ -72,6 +66,14 @@ public class UserServiceTest {
         UserDTO dto = service.getUserInfo(uid);
         String json = objectWriter.writeValueAsString(dto);
         System.out.println(json);
+    }
+
+    @Test
+    public void testGetUserInfoByWxOpenId(){
+        String wx_openid = "wxopenid1524810091840";
+        User user = service.getUserInfoByWxOpenId(wx_openid);
+        String json = JSONUtil.getJsonString(user);
+        System.out.println("user = " + json);
     }
 
 }

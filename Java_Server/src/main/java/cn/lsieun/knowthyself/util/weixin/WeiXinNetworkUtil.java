@@ -1,5 +1,8 @@
 package cn.lsieun.knowthyself.util.weixin;
 
+import cn.lsieun.knowthyself.dto.WeiXinDTO;
+import cn.lsieun.knowthyself.util.json.JSONUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.*;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -17,10 +20,21 @@ public class WeiXinNetworkUtil {
     private static final String grant_type = "authorization_code"; //填写为 authorization_code
     private static final String USER_AGENT = "Mozilla/5.0";
 
-    public static String getWeiXinUserInfo(String appid,String appSecret, String js_code) throws IOException {
+    public static String getWeiXinUserInfo(String appid,String appSecret, String js_code) {
         String url = "https://api.weixin.qq.com/sns/jscode2session?appid=" + appid + "&secret=" + appSecret + "&js_code=" + js_code + "&grant_type=authorization_code";
-        String content = getContent(url);
+        String content = null;
+        try {
+            content = getContent(url);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return content;
+    }
+
+    public static WeiXinDTO str2DTO(String content){
+        if(StringUtils.isBlank(content)) return null;
+        WeiXinDTO dto = JSONUtil.getObjectFromJson(content, WeiXinDTO.class);
+        return dto;
     }
 
     public static String getContent(String url) throws IOException {
