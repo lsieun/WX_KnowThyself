@@ -33,7 +33,7 @@ CREATE TABLE `tb_user`(
 	UNIQUE KEY `UK_OPENID`(`wxopenid`)
 )ENGINE=INNODB DEFAULT CHARSET=utf8 COMMENT='用户表';
 
-SELECT * FROM tb_user WHERE uid = '438747439013294080';
+SELECT * FROM tb_user WHERE uid = '441517664024657920';
 
 SELECT * FROM tb_user;
 
@@ -53,13 +53,12 @@ CREATE TABLE `tb_task`(
 	PRIMARY KEY(`uid`)
 )ENGINE=INNODB DEFAULT CHARSET=utf8 COMMENT='任务表';
 
+SELECT * FROM `tb_task`;
 
 
+SELECT * FROM `tb_task` WHERE DATE_FORMAT(start_time,'%Y-%m-%d') <= '2018-05-03' AND DATE_FORMAT(end_time,'%Y-%m-%d') >= '2018-05-03'
 
-
-
-
-
+SELECT DATE_FORMAT(start_time,'%Y-%m-%d'), DATE_FORMAT(end_time,'%Y-%m-%d') FROM `tb_task`
 
 
 

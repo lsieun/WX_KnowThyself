@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.lsieun.knowthyself.dao.TaskDao">
+    <!--实体映射-->
+    <resultMap id="TaskMap" type="cn.lsieun.knowthyself.entity.Task">
+        <result column="uid" property="uid" jdbcType="VARCHAR"/>
+        <result column="userid" property="userid" jdbcType="VARCHAR"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="priority" property="priority" jdbcType="INTEGER"/>
+        <result column="start_time" property="startTime" jdbcType="TIMESTAMP"/>
+        <result column="end_time" property="endTime" jdbcType="TIMESTAMP"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="last_edit_time" property="lastEditTime" jdbcType="TIMESTAMP"/>
+        <result column="is_valid" property="isValid" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="baseColumnList" >
+        uid,userid,name,priority,start_time,end_time,status,create_time,last_edit_time,is_valid
+    </sql>
+
+    <!-- 通用查询结果列-->
+    <sql id="sqlWhereClause" >
+        <!-- = -->
+        <if test="uid!=null and uid!=''">and uid = #{uid,jdbcType=VARCHAR}</if>
+        <if test="userid!=null and userid!=''">and userid = #{userid,jdbcType=VARCHAR}</if>
+        <if test="name!=null and name!=''">and name = #{name,jdbcType=VARCHAR}</if>
+        <if test="priority!=null and priority!=''">and priority = #{priority,jdbcType=INTEGER}</if>
+        <if test="startTime!=null and startTime!=''">and start_time = #{startTime,jdbcType=TIMESTAMP}</if>
+        <if test="endTime!=null and endTime!=''">and end_time = #{endTime,jdbcType=TIMESTAMP}</if>
+        <if test="status!=null and status!=''">and status = #{status,jdbcType=INTEGER}</if>
+        <if test="createTime!=null and createTime!=''">and create_time = #{createTime,jdbcType=TIMESTAMP}</if>
+        <if test="lastEditTime!=null and lastEditTime!=''">and last_edit_time = #{lastEditTime,jdbcType=TIMESTAMP}</if>
+        <if test="isValid!=null and isValid!=''">and is_valid = #{isValid,jdbcType=INTEGER}</if>
+        <!-- time -->
+        <if test="currentDate!=null and currentDate!=''">and (DATE_FORMAT(start_time,'%Y-%m-%d') &lt;= '${currentDate}' AND DATE_FORMAT(end_time,'%Y-%m-%d') &gt;= '${currentDate}')</if>
+        <!-- in -->
+        <if test="refIdList!=null and refIdList!=''">and ref_id in ( ${refIdList} )</if>
+        <if test="logoTypes!=null and logoTypes!=''">and logo_type in ( ${logoTypes} )</if>
+
+        <!-- like -->
+        <if test="urlLike != null and urlLike != ''">
+            <bind name="logoUrlLike" value="'%' + urlLike + '%'"/>
+            and logo_url like #{logoUrlLike}
+        </if>
+    </sql>
+
+    <sql id="sqlOrderByClause">
+        <if test="sortType!=null and sortType!=''">
+            <if test="sortType==1">
+                order by priority asc, start_time asc
+            </if>
+            <if test="sortType==2">
+                order by start_time desc, priority asc
+            </if>
+        </if>
+    </sql>
+
+    <!-- 查询（根据主键ID查询） -->
+    <select id="getById" resultMap="TaskMap" parameterType="java.lang.String" >
+        SELECT
+        <include refid="baseColumnList" />
+        FROM tb_task
+        WHERE uid = #{uid:VARCHAR}
+    </select>
+
+    <!-- 添加 （动态匹配所有有值字段）-->
+    <insert id="insert" parameterType="cn.lsieun.knowthyself.entity.Task" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO tb_task	(uid
+        <if test="userid!=null">,userid</if>
+        <if test="name!=null">,name</if>
+        <if test="priority!=null">,priority</if>
+        <if test="startTime!=null">,start_time</if>
+        <if test="endTime!=null">,end_time</if>
+        <if test="status!=null">,status</if>
+        <if test="createTime!=null">,create_time</if>
+        <if test="lastEditTime!=null">,last_edit_time</if>
+        <if test="isValid!=null">,is_valid</if>
+        <![CDATA[) values (]]> #{uid, jdbcType=VARCHAR}
+        <if test="userid!=null">,#{userid,jdbcType=VARCHAR}</if>
+        <if test="name!=null">,#{name,jdbcType=VARCHAR}</if>
+        <if test="priority!=null">,#{priority,jdbcType=INTEGER}</if>
+        <if test="startTime!=null">,#{startTime,jdbcType=TIMESTAMP}</if>
+        <if test="endTime!=null">,#{endTime,jdbcType=TIMESTAMP}</if>
+        <if test="status!=null">,#{status,jdbcType=INTEGER}</if>
+        <if test="createTime!=null">,#{createTime,jdbcType=TIMESTAMP}</if>
+        <if test="lastEditTime!=null">,#{lastEditTime,jdbcType=TIMESTAMP}</if>
+        <if test="isValid!=null">,#{isValid,jdbcType=INTEGER}</if>
+        <![CDATA[)]]>
+    </insert>
+
+    <!-- 修 改-->
+    <update id="update" parameterType="cn.lsieun.knowthyself.entity.Task">
+        UPDATE tb_task
+        <set>
+            <if test="uid!=null">uid = #{uid:VARCHAR},</if>
+            <if test="userid!=null">userid = #{userid:VARCHAR},</if>
+            <if test="name!=null">name = #{name:VARCHAR},</if>
+            <if test="priority!=null">priority = #{priority:INTEGER},</if>
+            <if test="startTime!=null">start_time = #{startTime:TIMESTAMP},</if>
+            <if test="endTime!=null">end_time = #{endTime:TIMESTAMP},</if>
+            <if test="status!=null">status = #{status:INTEGER},</if>
+            <if test="createTime!=null">create_time = #{createTime:TIMESTAMP},</if>
+            <if test="lastEditTime!=null">last_edit_time = #{lastEditTime:TIMESTAMP},</if>
+            <if test="isValid!=null">is_valid = #{isValid:INTEGER},</if>
+        </set>
+        WHERE uid = #{uid, jdbcType=VARCHAR}
+    </update>
+
+    <delete id="delete" parameterType="java.util.HashMap">
+        DELETE FROM tb_task
+        WHERE uid = #{uid, jdbcType=VARCHAR}
+    </delete>
+
+    <select id="getList" parameterType="java.util.HashMap" resultMap="TaskMap">
+        SELECT
+        <include refid="baseColumnList" />
+        FROM tb_task
+        WHERE 1=1
+        <include refid="sqlWhereClause" />
+        <include refid="sqlOrderByClause" />
+        LIMIT ${firstResult},${maxResult}
+    </select>
+
+    <!-- 查询getCount -->
+    <select id="getCount" parameterType="java.util.HashMap" resultType="java.lang.Integer" >
+        SELECT count(1)
+        FROM tb_task
+        WHERE 1=1
+        <include refid="sqlWhereClause" />
+    </select>
+
+</mapper>

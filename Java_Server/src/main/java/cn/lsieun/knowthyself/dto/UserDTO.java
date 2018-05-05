@@ -1,16 +1,18 @@
 package cn.lsieun.knowthyself.dto;
 
 public class UserDTO extends CommonDTO {
+    private String uid;
     private String wxopenid;
     private String uname;
     private Integer ugender;
     private String uavatar;
 
-    public UserDTO() {
+    public String getUid() {
+        return uid;
     }
 
-    public UserDTO(boolean success, String msg) {
-        super(success, msg);
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
     public String getWxopenid() {

@@ -5,135 +5,121 @@
 
 <%-- 数据表 --%>
 <%@ Property Name="Table" Type="TableSchema" DeepLoad="True" Category="DB" Optional="False"%>
-<%@ Property Name="packageName" Default="" Category="Java" Type="System.String" Optional="True"%>
+<%@ Property Name="packageName" Default="cn.lsieun.knowthyself.service.impl" Category="Java" Type="System.String" Optional="True"%>
 <!-- #include file="../zealous_common/CommonScript.cst" -->
-
-<% string clazzName = processUnderScoreName(Table.Name); %>
+<% string clazzName = processUnderScoreName(Table.Name, "tb_", ""); %>
 package <%= packageName %>;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.allin.broadcast.mapper.<%= clazzName %>Mapper;
-import com.allin.broadcast.model.BaseResponseObject;
-import com.allin.broadcast.model.<%= clazzName %>;
-import <%= getParentPackageName(packageName) %>.<%= clazzName %>Service;
-import com.allin.broadcast.util.StringTool;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import cn.lsieun.knowthyself.dao.<%= clazzName %>Dao;
+import cn.lsieun.knowthyself.dto.<%= clazzName %>DTO;
+import cn.lsieun.knowthyself.dto.ValidationDTO;
+import cn.lsieun.knowthyself.entity.<%= clazzName %>;
+import cn.lsieun.knowthyself.exception.<%= clazzName %>Exception;
+import cn.lsieun.knowthyself.service.<%= clazzName %>Service;
+import cn.lsieun.knowthyself.util.page.PageUtil;
+import cn.lsieun.knowthyself.util.snowflake.SnowflakeIdWorker;
 
 
 @Service("<%= getCamelCaseName(clazzName) %>Service")
-@SuppressWarnings({"rawtypes","unchecked"})
 public class <%= clazzName %>ServiceImpl implements <%= clazzName %>Service{
 
     private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
     private final Gson gson = new GsonBuilder().serializeNulls().setPrettyPrinting().create();
+    
+    @Autowired
+    private SnowflakeIdWorker snowflakeIdWorker;    
 
     @Autowired 
-    <%= clazzName %>Mapper dao; 
+    private <%= clazzName %>Dao dao; 
 
     @Override
-    public BaseResponseObject create(Map paramMap) {
-        BaseResponseObject responseObject = new BaseResponseObject(Boolean.FALSE,"","");
-        // region log
-        if(LOGGER.isInfoEnabled()) {
-            LOGGER.info("<%= clazzName %>ServiceImpl==>create==>paramMap: " + gson.toJson(paramMap));
-        }
-        // endregion        
-        try
-        {
-            Long primaryKeyId = System.currentTimeMillis();
-			paramMap.put("xxxId", primaryKeyId); //FIXME: RK这里需要修改XXX          
-            // region log
-            if(LOGGER.isInfoEnabled()) {
-                LOGGER.info("<%= clazzName %>ServiceImpl===>create==>paramMap==>" + gson.toJson(paramMap));
-            }
-            // endregion
-            
-            Long count = dao.insert(paramMap);
-            Long pkId = Long.parseLong(StringTool.getMapString(paramMap, "id"));
-            // region log
-            if(LOGGER.isInfoEnabled()) {
-                LOGGER.info("<%= clazzName %>ServiceImpl==>create==>count: " + count);
-                LOGGER.info("<%= clazzName %>ServiceImpl==>create==>pkId: " + pkId);
-            }
-            // endregion
-            responseObject.setResponsePk(pkId);
-			responseObject.setResponseMessage("SUCCESS");
-			responseObject.setResponseStatus(Boolean.TRUE);
-        } catch (Exception ex){
-            LOGGER.error("<%= clazzName %>ServiceImpl===>create==>Exception==>", ex);
-            responseObject.setResponseMessage("ERROR");
-			responseObject.setResponseStatus(Boolean.FALSE);
-        }
-        // region log
-        if(LOGGER.isInfoEnabled()) {
-            LOGGER.info("<%= clazzName %>ServiceImpl===>create==>responseObject==>" + gson.toJson(responseObject));
-        }
+    public <%= clazzName %>DTO get<%= clazzName %>(String uid) {
+        <%= clazzName %> <%= getCamelCaseName(clazzName) %> = dao.getById(uid);
+        <%= clazzName %>DTO dto = entity2DTO(<%= getCamelCaseName(clazzName) %>);
+        return dto;
+    }
+
+    @Override
+    public TaskDTO create<%= clazzName %>(<%= clazzName %> <%= getCamelCaseName(clazzName) %>) {
+        /*
+        处理思路：
+        （1）进行数据有效性检验
+        （2）将数据添加到数据库中
+        （3）将结果进行返回
+        * */
+        // region （1）进行数据有效性检验
+        ValidationDTO validationDTO = validate(<%= getCamelCaseName(clazzName) %>, true);
+        if(validationDTO.isSuccess() == false) throw new <%= clazzName %>Exception(validationDTO.getErrMsg());
         // endregion
-        return responseObject;
+
+        // region （2）将数据添加到数据库中
+        long sid = snowflakeIdWorker.nextId();
+        String uid = String.valueOf(sid);
+        task.setUid(uid);
+
+        int effectedNum = dao.insert(<%= getCamelCaseName(clazzName) %>);
+        if(effectedNum != 1) throw new <%= clazzName %>Exception("操作失败，数据库出错啦！");
+        // endregion
+
+        // region （3）将结果进行返回
+        <%= clazzName %>DTO dto = entity2DTO(<%= getCamelCaseName(clazzName) %>);
+        return dto;
+        // endregion
     }
 	 
 	@Override
-    public BaseResponseObject update(Map paramMap) {
-        BaseResponseObject responseObject = new BaseResponseObject(Boolean.FALSE,"","");
-        // region log
-        if(LOGGER.isInfoEnabled()) {
-            LOGGER.info("<%= clazzName %>ServiceImpl===>update==>paramMap==>" + gson.toJson(paramMap));
-        }
+    public boolean modify<%= clazzName %>(<%= clazzName %> <%= getCamelCaseName(clazzName) %>) {
+        /*
+        处理思路：
+        （1）进行数据有效性检验
+        （2）将数据更新到数据库中
+        （3）将结果进行返回
+        * */
+
+        // region （1）进行数据有效性检验
+        ValidationDTO validationDTO = validate(<%= getCamelCaseName(clazzName) %>, false);
+        if(validationDTO.isSuccess() == false) throw new <%= clazzName %>Exception(validationDTO.getErrMsg());
         // endregion
 
-		try {
-            dao.update(paramMap);
-			responseObject.setResponseMessage("SUCCESS");
-			responseObject.setResponseStatus(Boolean.TRUE);
-		} catch (Exception ex) {
-            LOGGER.error("<%= clazzName %>ServiceImpl===>update==>Exception==>", ex);
-            responseObject.setResponseMessage("ERROR");
-			responseObject.setResponseStatus(Boolean.FALSE);
-		}
-		// region log
-        if(LOGGER.isInfoEnabled()) {
-            LOGGER.info("<%= clazzName %>ServiceImpl===>update==>responseObject==>" + gson.toJson(responseObject));
-        }
+        // region （2）将数据更新到数据库中
+        <%= getCamelCaseName(clazzName) %>.setLastEditTime(new Date());
+        int effectedNum = dao.update(<%= getCamelCaseName(clazzName) %>);
+        if(effectedNum != 1) throw new <%= clazzName %>Exception("操作失败，数据库出错啦！");
         // endregion
-		return responseObject;
+
+        // region （3）将结果进行返回
+        return true;
+        // endregion
 	}
 
 	@Override
-	public <%= clazzName %> getById(Long id) {
-        // region log
-		if(LOGGER.isInfoEnabled()) {
-            LOGGER.info("<%= clazzName %>ServiceImpl===>getById==>id==>" + id);
-        }
-        // endregion
-        return dao.getById(id);
+	public <%= clazzName %>DTO getById(String uid) {
+        Task task = dao.getById(uid);
+        TaskDTO dto = entity2DTO(task);
+        return dto;
 	}
 
 	@Override
-	public List<<%= clazzName %>> getList(Map paramMap) {
-        // region log
-		if(LOGGER.isInfoEnabled()) {
-            LOGGER.info("<%= clazzName %>ServiceImpl===>getList==>paramMap==>" + gson.toJson(paramMap));
-        }
-        // endregion
-        return dao.getList(paramMap);
+	public List<<%= clazzName %>DTO> getList(Map<String,String> queryMap) {
+        List<Task> taskList = dao.getList(queryMap);
+        List<TaskDTO> dtoList = entityList2DTOList(taskList);
+        return dtoList;
 	}
 
 	@Override
-    public Integer getCount(Map paramMap) {
-        // region log
-		if(LOGGER.isInfoEnabled()) {
-            LOGGER.info("<%= clazzName %>ServiceImpl===>getCount==>paramMap==>" + gson.toJson(paramMap));
-        }
-        // endregion
-        return dao.getCount(paramMap);
+    public int getCount(Map<String,String> queryMap) {
+        return dao.getCount(queryMap);
 	}
     
     @Override

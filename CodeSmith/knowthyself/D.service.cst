@@ -7,28 +7,36 @@
 <%@ Property Name="Table" Type="TableSchema" DeepLoad="True" Category="DB" Optional="False"%>
 <%@ Property Name="packageName" Default="cn.lsieun.knowthyself.service" Category="Java" Type="System.String" Optional="True"%>
 <!-- #include file="../zealous_common/CommonScript.cst" -->
-
 <% string clazzName = processUnderScoreName(Table.Name, "tb_", ""); %>
-package <%= getPackageName(Table.Name) %>;
+package <%= packageName %>;
 
 import java.util.List;
 import java.util.Map;
 
-import com.allin.broadcast.model.BaseResponseObject;
-import com.allin.broadcast.model.<%= clazzName %>;
+import cn.lsieun.knowthyself.dto.<%= clazzName %>DTO;
+import cn.lsieun.knowthyself.dto.ValidationDTO;
+import cn.lsieun.knowthyself.entity.<%= clazzName %>;
 
 
-@SuppressWarnings("rawtypes")
+
 public interface <%= clazzName %>Service {
 
-    BaseResponseObject create(Map paramMap);
+    <%= clazzName %>DTO create(<%= clazzName %> <%= getCamelCaseName(clazzName) %>);
 
-    BaseResponseObject update(Map paramMap);
+    boolean update(<%= clazzName %> <%= getCamelCaseName(clazzName) %>);
+    
+    boolean delete(String uid);
 
-    <%= clazzName %> getById(Long id);
+    <%= clazzName %>DTO getById(String uid);
 
-    List<<%= clazzName %>> getList(Map paramMap);
+    List<<%= clazzName %>DTO> getList(Map<String,String> queryMap);
 
-    Integer getCount(Map paramMap);
+    int getCount(Map paramMap);
+    
+    <%= clazzName %>DTO entity2DTO(<%= clazzName %> entity);
+    
+    List<<%= clazzName %>DTO> entityList2DTOList(List<<%= clazzName %>> entityList);  
+    
+    ValidationDTO validate(<%= clazzName %> <%= getCamelCaseName(clazzName) %>, boolean isCreate); 
 
 }

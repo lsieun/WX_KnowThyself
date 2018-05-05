@@ -1,5 +1,6 @@
 package cn.lsieun.knowthyself.web;
 
+import cn.lsieun.knowthyself.dto.ResultDTO;
 import cn.lsieun.knowthyself.dto.UserDTO;
 import cn.lsieun.knowthyself.dto.WXUserDTO;
 import cn.lsieun.knowthyself.dto.WeiXinDTO;
@@ -73,14 +74,14 @@ public class UserController {
     }
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
-    public UserDTO save(User user){
+    public ResultDTO save(User user){
         if(user == null) throw new UserException("更新用户信息失败，用户不能为空");
 
         String uid = user.getUid();
         if(StringUtils.isBlank(uid)) throw new UserException("更新用户信息失败，用户uid不能为空值");
 
         boolean flag = service.saveUserInfo(user);
-        UserDTO dto = new UserDTO();
+        ResultDTO dto = new ResultDTO();
         if(flag == false) dto.setSuccess(false);
         return dto;
     }

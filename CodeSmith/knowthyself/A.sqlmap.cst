@@ -13,7 +13,7 @@
     string[] updateExceptionColumns = strUpdateExceptionColumns.Split(new string[]{"|"},StringSplitOptions.RemoveEmptyEntries); 
     string moreQueryParameter = ""; 
     for(int i=0;i<updateExceptionColumns.Length;i++){
-        moreQueryParameter += " OR " + updateExceptionColumns[i] + " = #{" + getFieldName(updateExceptionColumns[i]) + ":BIGINT}";
+        moreQueryParameter += " OR " + updateExceptionColumns[i] + " = #{" + getFieldName(updateExceptionColumns[i]) + ":VARCHAR}";
     } 
 %>
 <?xml version="1.0" encoding="UTF-8"?>
@@ -83,7 +83,7 @@
 	</sql>      
 
     <!-- 查询（根据主键ID查询） -->
-    <select id="getById" resultMap="<%= clazzName %>Map" parameterType="java.lang.Long" >
+    <select id="getById" resultMap="<%= clazzName %>Map" parameterType="java.lang.String" >
         SELECT 
             <include refid="baseColumnList" />
         FROM <%= Table.Name %>
@@ -91,29 +91,25 @@
     </select>
 
     <!-- 添加 （动态匹配所有有值字段）-->
-    <insert id="insert" parameterType="java.util.HashMap" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO <%= Table.Name %>	(id
+    <insert id="insert" parameterType="cn.lsieun.knowthyself.entity.<%= clazzName %>" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO <%= Table.Name %>	(uid
         <% foreach(ColumnSchema col in Table.Columns) {%>
         <% string fieldName = getFieldName(col.Name); %>
-        <% if("id".Equals(col.Name.ToLower())) continue; %>
-            <if test="<%= fieldName %>!=null and <%= fieldName %>!=''">,<%= col.Name %></if>
+        <% if("uid".Equals(col.Name.ToLower())) continue; %>
+            <if test="<%= fieldName %>!=null">,<%= col.Name %></if>
         <%} %>
-		<![CDATA[) values (]]> #{id, jdbcType=BIGINT}
+		<![CDATA[) values (]]> #{uid, jdbcType=VARCHAR}
             <% foreach(ColumnSchema col in Table.Columns) {%>
             <% string dbType = getJDBCType(col); %>
             <% string fieldName = getFieldName(col.Name); %>
-            <% if("id".Equals(col.Name.ToLower())) continue; %>
-            <if test="<%= fieldName %>!=null and <%= fieldName %>!=''">,#{<%= fieldName %>,jdbcType=<%= dbType %>}</if>
+            <% if("uid".Equals(col.Name.ToLower())) continue; %>
+            <if test="<%= fieldName %>!=null">,#{<%= fieldName %>,jdbcType=<%= dbType %>}</if>
             <%} %>		
 		<![CDATA[)]]>
-    	<!-- selectKey的查询方法 -->
-    	<selectKey keyProperty="id" resultType="long" order="AFTER">
-    	    SELECT LAST_INSERT_ID() AS id
-    	</selectKey>
     </insert>
 
     <!-- 修 改-->
-    <update id="update" parameterType="java.util.HashMap">
+    <update id="update" parameterType="cn.lsieun.knowthyself.entity.<%= clazzName %>">
 	    UPDATE <%= Table.Name %>
  		<set>
             <% foreach(ColumnSchema col in Table.Columns) {%>
@@ -121,17 +117,17 @@
             <% string fieldName = getFieldName(col.Name); %>
             <% if("id".Equals(col.Name.ToLower())) continue; %>
             <% if("update_time".Equals(col.Name.ToLower())) {%>
-            <if test="<%= fieldName %>!=null and <%= fieldName %>!=''"><%= col.Name %> = NOW(),</if>
+            <if test="<%= fieldName %>!=null"><%= col.Name %> = NOW(),</if>
             <% continue; }%>
-            <if test="<%= fieldName %>!=null and <%= fieldName %>!=''"><%= col.Name %> = #{<%= fieldName %>:<%= dbType %>},</if>
+            <if test="<%= fieldName %>!=null"><%= col.Name %> = #{<%= fieldName %>:<%= dbType %>},</if>
             <%} %>
  		</set>
-	    WHERE id = #{id, jdbcType=BIGINT} <%= moreQueryParameter %>
+	    WHERE uid = #{uid, jdbcType=VARCHAR} <%= moreQueryParameter %>
     </update>
 
-    <delete id="deleteById" parameterType="java.util.HashMap">
+    <delete id="delete" parameterType="java.util.HashMap">
         DELETE FROM <%= Table.Name %>
-        WHERE id = #{id, jdbcType=BIGINT}
+        WHERE uid = #{uid, jdbcType=VARCHAR}
     </delete>
 
     <select id="getList" parameterType="java.util.HashMap" resultMap="<%= clazzName %>Map">
