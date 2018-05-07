@@ -1,0 +1,34 @@
+<!--timeline.wxml-->
+<view class="container">
+  <!-- header -->
+  <view class='header'>
+    <!-- 头像 -->
+    <view class="userinfo-avatar-box" animation="{{userAvatarParentAnimation}}" catchtap="userAvatarTap">
+      <image class="userinfo-avatar" src="{{userInfo.avatarUrl}}" animation="{{userAvatarAnimation}}" 
+        bindtouchstart="userAvatarTouchStart" 
+        bindtouchend="userAvatarTouchEnd" 
+        bindtouchmove="userAvatarTouchMove"></image>
+    </view>
+  </view>
+
+  <!-- content -->
+  <view class='content'>
+
+    <view class="record-date">
+      <text class="record-date-text">1日</text>
+      <text class="record-date-statistics">500元</text>
+    </view>
+    <view class="record-item">
+
+      <text class='record-item-name'>小明明</text>
+      <text class="record-item-text">太放大</text>
+    </view>
+    <view class="record-item">
+
+      <text class='record-item-name'>19:01</text>
+      <text class="record-item-text">lalala</text>
+    </view>    
+
+  </view>
+
+</view>

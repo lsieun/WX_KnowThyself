@@ -1,0 +1,74 @@
+<view class="page" xmlns:wx="http://www.w3.org/1999/xhtml">
+  <!--
+  <view class="page__hd">
+    <view class="page__title">Input</view>
+    <view class="page__desc">表单输入</view>
+  </view>
+-->
+
+  <view class="page__bd">
+    <view class="weui-cells__title">任务信息</view>
+    <form bindsubmit='formSubmit' bindreset='formReset'>
+      <view class="weui-cells weui-cells_after-title">
+
+        <!-- 任务名称 -->
+        <view class="weui-cell weui-cell_input">
+          <view class="weui-cell__hd">
+            <view class="weui-label">任务名称</view>
+          </view>
+          <view class="weui-cell__bd">
+            <input class="weui-input" name="name" placeholder="请输入任务名称" value="{{taskname}}"/>
+          </view>
+        </view>
+
+        <!-- 紧急程度 -->
+        <view class="weui-cell weui-cell_select">
+          <view class="weui-cell__hd weui-cell__hd_in-select-after">
+            <view class="weui-label">紧急程度</view>
+          </view>
+          <view class="weui-cell__bd">
+            <picker value="{{priorityIndex}}" range="{{prioritys}}" bindchange="bindPriorityChange">
+              <view class="weui-select weui-select_in-select-after">{{prioritys[priorityIndex]}}</view>
+            </picker>
+          </view>
+        </view>
+
+        <!-- 开始日期 -->
+        <view class="weui-cell weui-cell_input">
+          <view class="weui-cell__hd">
+            <view class="weui-label">开始日期</view>
+          </view>
+          <view class="weui-cell__bd">
+            <picker mode="date" value="{{startDate}}" start="{{pickeStartDate}}" end="{{pickerEndDate}}" bindchange="bindStartDateChange">
+              <view class="weui-input">{{startDate}}</view>
+            </picker>
+          </view>
+        </view>
+
+        <!-- 结束日期 -->
+        <view class="weui-cell weui-cell_input">
+          <view class="weui-cell__hd">
+            <view class="weui-label">结束日期</view>
+          </view>
+          <view class="weui-cell__bd">
+            <picker mode="date" value="{{endDate}}" start="{{pickeStartDate}}" end="{{pickerEndDate}}" bindchange="bindEndDateChange">
+              <view class="weui-input">{{endDate}}</view>
+            </picker>
+          </view>
+        </view>
+
+      </view>
+
+      <view class="weui-cells__tips">底部说明文字底部说明文字</view>
+
+      <!-- 提交 -->
+      <view class="weui-btn-area">
+        <button class="weui-btn" type="primary" form-type='submit'>提交</button>
+      </view>
+      <!-- 清空 -->
+      <view class="weui-btn-area">
+        <button class="weui-btn" type="primary" form-type='reset'>清空</button>
+      </view>
+    </form>
+  </view>
+</view>

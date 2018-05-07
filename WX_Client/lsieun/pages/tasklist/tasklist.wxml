@@ -1,0 +1,49 @@
+<view class="page">
+  <view class="page__hd">
+    <view class="page__title">重视贡献</view>
+    <view class="page__desc">要事优先 | 一次只做好一件事 |
+      <navigator url="/pages/taskall/taskall" class="weui-agree__link">全部任务</navigator>  | 
+      <navigator url="/pages/taskcreate/taskcreate" class="weui-agree__link">添加任务</navigator>
+    </view>
+  </view>
+
+  <view class="page__bd">
+    <view class="weui-cells__title">需要完成的任务</view>
+    <view class="weui-cells weui-cells_after-title">
+
+      <block wx:for="{{taskToDoList}}" wx:for-item="task">
+        <view class="weui-cell" bindlongtap='delTask' data-taskid='{{task.uid}}' data-taskname='{{task.name}}'>
+          <view class="weui-cell__hd">
+            <image bindtap='editTask' data-taskid='{{task.uid}}' src="{{taskPrioritys[task.priority]}}" style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;"></image>
+          </view>
+          <view class="weui-cell__bd">{{task.name}}</view>
+          <view class="weui-cell__ft">
+            <switch type="switch" checked='{{task.status == 0 ? true : false}}' bindchange='taskStatusChange' data-taskid='{{task.uid}}' />
+          </view>
+        </view>
+      </block>
+    </view>
+
+    <view class="weui-cells__title">已经完成的任务</view>
+    <view class="weui-cells weui-cells_after-title">
+      <block wx:for="{{taskDoneList}}" wx:for-item="task">
+        <view class="weui-cell" bindlongtap='delTask' data-taskid='{{task.uid}}' data-taskname='{{task.name}}'>
+          <view class="weui-cell__hd">
+            <image bindtap='editTask' data-taskid='{{task.uid}}' src="{{taskPrioritys[task.priority]}}" style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;"></image>
+          </view>
+          <view class="weui-cell__bd">{{task.name}}</view>
+          <view class="weui-cell__ft">
+            <switch type="switch" checked='{{task.status == 0 ? true : false}}' bindchange='taskStatusChange' data-taskid='{{task.uid}}' />
+          </view>
+        </view>
+      </block>
+    </view>
+  </view>
+
+  <view class="weui-footer weui-footer_fixed-bottom">
+    <view class="weui-footer__links">
+      <navigator url="" class="weui-footer__link">认知自己 ● 管理自己</navigator>
+    </view>
+    <view class="weui-footer__text">Copyright © 2018-2022 lsieun.cn</view>
+  </view>
+</view>

@@ -1,0 +1,27 @@
+<!--test.wxml-->
+<swiper indicator-dots="{{indicatorDots}}"  
+        autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}">  
+      <block wx:for="{{imgUrls}}">  
+        <swiper-item>  
+           <navigator url="{{item.link}}" hover-class="navigator-hover">  
+            <image src="{{item.url}}" class="slide-image" width="355" height="150"/>  
+           </navigator>   
+        </swiper-item>  
+      </block>  
+</swiper>  
+<view class="container">  
+    <text>这是我的test页面哦哦！！！</text>  
+    
+</view>
+<button bindtap='test_wx_login'>测试wx.login</button>
+<button bindtap='test_wx_getuserinfo'>测试wx.getUserInfo</button>
+<button bindtap='test_wx_request'>测试wx.request</button>
+<button bindtap='test_kt_signin'>测试注册用户</button>
+<button bindtap='test_kt_util'>测试util</button>
+
+<scroll-view scroll-x="true" style=" white-space: nowrap; display: flex" >
+<view style="background: red; width: 200px; height: 100px; display: inline-block" ></view>
+<view style="background: green; width: 200px; height: 100px; display: inline-block"></view>
+<view style="background: blue; width: 200px; height: 100px; display: inline-block"></view>
+<view style="background: yellow; width: 200px; height: 100px; display: inline-block"></view>
+</scroll-view>

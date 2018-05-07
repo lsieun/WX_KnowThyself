@@ -1,0 +1,25 @@
+<!--pages/taskall/taskall.wxml-->
+<view class="page">
+  <view class="page__hd">
+    <view class="page__title">全部任务列表</view>
+  </view>
+
+  <view class="page__bd">
+    <view class="weui-cells__title"></view>
+    <view class="weui-cells weui-cells_after-title">
+
+      <block wx:for="{{taskList}}" wx:for-item="task">
+        <view class="weui-cell" bindlongtap='delTask' data-taskid='{{task.uid}}' data-taskname='{{task.name}}'>
+          <view class="weui-cell__hd">
+            <image bindtap='editTask' data-taskid='{{task.uid}}' src="{{taskPrioritys[task.priority]}}" style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;"></image>
+          </view>
+          <view class="weui-cell__bd">{{task.startTime}} {{task.name}}</view>
+          <view class="weui-cell__ft">
+            <switch type="switch" checked='{{task.status == 0 ? true : false}}' bindchange='taskStatusChange' data-taskid='{{task.uid}}' />
+          </view>
+        </view>
+      </block>
+    </view>
+
+  </view>
+</view>

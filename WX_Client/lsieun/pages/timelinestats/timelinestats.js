@@ -1,0 +1,3 @@
+let pageOptions = {};
+
+Page(pageOptions)
