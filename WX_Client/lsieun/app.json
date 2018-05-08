@@ -44,7 +44,7 @@
       {
         "iconPath": "images/management_128x128.png",
         "selectedIconPath": "images/management_full_128x128.png",
-        "pagePath": "pages/index/index",
+        "pagePath": "pages/logs/logs",
         "text": "Drucker"
       },
       {

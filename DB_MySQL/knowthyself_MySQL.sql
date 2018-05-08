@@ -60,9 +60,9 @@ SELECT * FROM `tb_task` WHERE DATE_FORMAT(start_time,'%Y-%m-%d') <= '2018-05-03'
 
 SELECT DATE_FORMAT(start_time,'%Y-%m-%d'), DATE_FORMAT(end_time,'%Y-%m-%d') FROM `tb_task`
 
+SELECT * FROM `tb_task` where userid = '441517664024657920';
 
-
-
+update `tb_task` set is_valid = 1 where userid = '441517664024657920';
 
 
 
