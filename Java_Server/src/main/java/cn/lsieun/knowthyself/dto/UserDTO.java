@@ -1,7 +1,10 @@
 package cn.lsieun.knowthyself.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class UserDTO extends CommonDTO {
     private String uid;
+    @JsonIgnore
     private String wxopenid;
     private String uname;
     private Integer ugender;

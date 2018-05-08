@@ -84,6 +84,9 @@ public class UserServiceImpl implements UserService {
         long sid = snowflakeIdWorker.nextId();
         String uid = String.valueOf(sid);
         user.setUid(uid);
+        user.setUname("新用户");
+        user.setUgender(0);
+        user.setUavatar("");
 
         int effectedNum = dao.insert(user);
         if(effectedNum != 1) throw new UserException("注册失败，数据库操作发生错误");

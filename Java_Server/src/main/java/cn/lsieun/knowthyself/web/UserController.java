@@ -23,7 +23,42 @@ public class UserController {
     private UserService service;
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public UserDTO loginOrSignup(@RequestBody User user){
+    public ResultDTO loginOrSignup(@RequestBody User user){
+        if(user == null) throw new UserException("用户登录失败，用户不能为空");
+
+        String js_code = user.getCode();
+        if(StringUtils.isBlank(js_code)) throw new UserException("用户登录失败，用户微信code为空");
+
+        WeiXinDTO wxDTO = service.getWxUserInfo(js_code);
+        if(wxDTO == null || StringUtils.isBlank(wxDTO.getOpenid())) throw new UserException("用户登录失败，用户微信code无效");
+
+        String wx_openid = wxDTO.getOpenid();
+        String session_key = wxDTO.getSession_key();
+
+        User dbUser = service.getUserInfoByWxOpenId(wx_openid);
+        int userStatus = service.getUserStatus(dbUser);
+
+        ResultDTO result = new ResultDTO();
+
+        if(userStatus == 0) {
+            user.setWxopenid(wx_openid);
+            UserDTO dto = service.signup(user);
+            result.setData(dto);
+            return result;
+        }
+
+        if(userStatus == 1) {
+            UserDTO dto = service.entity2DTO(dbUser);
+            result.setData(dto);
+            return result;
+        }
+
+        result.setSuccess(false);
+        result.setMsg("用户登录失败，用户状态异常");
+        return result;
+    }
+
+    private UserDTO lalalal(@RequestBody User user){
         if(user == null) throw new UserException("用户登录失败，用户不能为空");
 
         String js_code = user.getCode();
