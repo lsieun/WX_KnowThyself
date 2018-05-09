@@ -10,12 +10,18 @@
 <% string clazzName = processUnderScoreName(Table.Name, "tb_", ""); %>
 package <%= packageName %>;
 
-import cn.lsieun.knowthyself.entity.<%= clazzName %>;
-import cn.lsieun.knowthyself.util.snowflake.SnowflakeIdWorker;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
-import org.junit.*;
+import static org.junit.Assert.*;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.FixMethodOrder;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,12 +29,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import static org.junit.Assert.*;
-import static org.junit.Assert.assertEquals;
+import cn.lsieun.knowthyself.entity.<%= clazzName %>;
+import cn.lsieun.knowthyself.util.json.JSONUtil;
+import cn.lsieun.knowthyself.util.snowflake.SnowflakeIdWorker;
 
 
 @RunWith(SpringRunner.class)
@@ -36,28 +39,17 @@ import static org.junit.Assert.assertEquals;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING) // 按方法名大小升序执行
 public class <%= clazzName %>DaoTest{
 
-    @Value("${snowflake.dataCenterId}")
-    private static long dataCenterId;
-    @Value("${snowflake.dataCenterId}")
-    private static long workerId;
-
     private static long snowflakeId;
-    private static SnowflakeIdWorker snowflakeIdWorker;
-    private static ObjectWriter objectWriter;
+    @Autowired
+    private SnowflakeIdWorker snowflakeIdWorker;
 
     private static Map<String,String> queryMap;
-    private static String testString = "XXXX测试";
 
 	@Autowired
 	private <%= clazzName %>Dao dao;
     
     @BeforeClass
     public static void beforeClass(){
-        snowflakeIdWorker = new SnowflakeIdWorker(workerId, dataCenterId);
-        snowflakeId = snowflakeIdWorker.nextId();
-        
-        ObjectMapper mapper = new ObjectMapper();
-        objectWriter = mapper.writerWithDefaultPrettyPrinter();
         queryMap = new HashMap<String,String>();
     }
     
@@ -108,18 +100,17 @@ public class <%= clazzName %>DaoTest{
 	}
 
 	@Test
-	public void testCGetById() throws JsonProcessingException {
+	public void testCGetById() {
         String uid = String.valueOf(snowflakeId);
 		<%= clazzName %> entity = dao.getById(uid);
 		
 		assertEquals(testString, entity.getUname());
 
-        String json = objectWriter.writeValueAsString(entity);
-        System.out.println(json);
+        System.out.println(JSONUtil.getJsonString(entity));
 	}
 
 	@Test
-	public void testGetDList() throws JsonProcessingException {
+	public void testGetDList() {
 		String uid = String.valueOf(snowflakeId);
         queryMap.put("uid",uid);
         queryMap.put("isValid","1");
@@ -129,8 +120,7 @@ public class <%= clazzName %>DaoTest{
 		List<<%= clazzName %>> list = dao.getList(queryMap);
         
 		assertEquals(1,list.size());
-        String json = objectWriter.writeValueAsString(list);
-        System.out.println(json);
+        System.out.println(JSONUtil.getJsonString(list));
 	}
 
     @Test

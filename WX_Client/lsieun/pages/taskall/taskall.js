@@ -1,4 +1,11 @@
 // pages/taskall/taskall.js
+'use strict';
+
+// 引入工具类库 
+import util from '../../utils/index.js';
+
+//获取应用实例
+var app = getApp();
 
 let handler = {
   data: {
@@ -52,7 +59,7 @@ let handler = {
         console.log(res, '>>');
         if (res.confirm == true) {
           wx.request({
-            url: 'http://127.0.0.1:8888/knowthyself/task/del',
+            url: app.globalData.host + app.urls.task_del,
             data: {
               uid: taskid
             },
@@ -86,9 +93,16 @@ let handler = {
 Page(handler)
 
 function refreshTaskList(page, firstResult, maxResult) {
-  
-  var url = "http://127.0.0.1:8888/knowthyself/task/all";
-  var userid = "441517664024657920";
+  if (!app.globalData.userInfo || !app.globalData.userInfo.uid) {
+    wx.showToast({
+      title: '您好像没有登录哎~~~',
+      icon: 'none',
+      duration: 3000
+    });
+    return;
+  }
+  var url = app.globalData.host + app.urls.task_all;
+  var userid = app.globalData.userInfo.uid;
   var order = "asc";
 
   wx.request({

@@ -17,11 +17,9 @@ import java.util.Map;
 public class GlobalExceptionHandler {
     @ExceptionHandler(value = Exception.class)
     @ResponseBody
-    public Map<String, Object> exceptionHandler(HttpServletRequest req, Exception ex) throws Exception {
-        Map<String, Object> modelMap = new HashMap<String, Object>();
-        modelMap.put("success", false);
-        modelMap.put("errMsg", ex.getMessage());
-        return modelMap;
+    public ResultDTO exceptionHandler(HttpServletRequest req, Exception ex) throws Exception {
+        ResultDTO dto = new ResultDTO(false, ex.getMessage());
+        return dto;
     }
 
     @ExceptionHandler(value = UserException.class)

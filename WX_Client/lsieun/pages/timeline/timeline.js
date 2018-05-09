@@ -1,4 +1,8 @@
-//@ sourceURL=timeline.js
+//timeline.js
+'use strict';
+
+// 引入工具类库 
+import util from '../../utils/index.js';
 
 //获取应用实例
 var app = getApp();

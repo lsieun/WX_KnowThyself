@@ -4,7 +4,7 @@
   <view class='header'>
     <!-- 头像 -->
     <view class="userinfo-avatar-box" animation="{{userAvatarParentAnimation}}" catchtap="userAvatarTap">
-      <image class="userinfo-avatar" src="{{userInfo.avatarUrl}}" animation="{{userAvatarAnimation}}" 
+      <image class="userinfo-avatar" src="/images/hourglass.png" animation="{{userAvatarAnimation}}" 
         bindtouchstart="userAvatarTouchStart" 
         bindtouchend="userAvatarTouchEnd" 
         bindtouchmove="userAvatarTouchMove"></image>

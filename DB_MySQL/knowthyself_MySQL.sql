@@ -60,13 +60,32 @@ SELECT * FROM `tb_task` WHERE DATE_FORMAT(start_time,'%Y-%m-%d') <= '2018-05-03'
 
 SELECT DATE_FORMAT(start_time,'%Y-%m-%d'), DATE_FORMAT(end_time,'%Y-%m-%d') FROM `tb_task`
 
-SELECT * FROM `tb_task` where userid = '441517664024657920';
+SELECT * FROM `tb_task` WHERE userid = '441517664024657920';
 
-update `tb_task` set is_valid = 1 where userid = '441517664024657920';
+UPDATE `tb_task` SET is_valid = 1 WHERE userid = '441517664024657920';
 
+CREATE TABLE `tb_timeline`(
+	`uid` VARCHAR(128) NOT NULL COMMENT '时间线ID',
+	`userid` VARCHAR(128) NOT NULL COMMENT '用户ID',
+	`name` VARCHAR(20) NOT NULL COMMENT '时间线名称',
+	`timeline_type` INT(1) NOT NULL DEFAULT '0' COMMENT '时间线类型（0-未分类，其他-用户自建类型）',
+	`start_time` DATETIME DEFAULT NULL COMMENT '开始时间',
+	`end_time` DATETIME DEFAULT NULL COMMENT '结束时间',
+	`create_time` DATETIME DEFAULT NOW() NOT NULL COMMENT '创建时间',
+	`last_edit_time` DATETIME DEFAULT NULL COMMENT '更新时间',
+	`is_valid` INT(1) DEFAULT '1' NOT NULL COMMENT '是否有效（0-无效，1-有效）',
+	PRIMARY KEY(`uid`)
+)ENGINE=INNODB DEFAULT CHARSET=utf8 COMMENT='时间线表';
 
-
-
+CREATE TABLE `tb_timeline_type`(
+	`uid` VARCHAR(128) NOT NULL COMMENT '时间线类型ID',
+	`userid` VARCHAR(128) NOT NULL COMMENT '用户ID',
+	`name` VARCHAR(20) NOT NULL COMMENT '时间线类型名称',
+	`create_time` DATETIME DEFAULT NOW() NOT NULL COMMENT '创建时间',
+	`last_edit_time` DATETIME DEFAULT NULL COMMENT '更新时间',
+	`is_valid` INT(1) DEFAULT '1' NOT NULL COMMENT '是否有效（0-无效，1-有效）',
+	PRIMARY KEY(`uid`)
+)ENGINE=INNODB DEFAULT CHARSET=utf8 COMMENT='时间线类型表';
 
 
 
