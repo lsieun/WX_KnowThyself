@@ -1,0 +1,60 @@
+<view class="page">
+
+  <view class="page__hd">
+    <!-- <view class="page__title">Input</view> -->
+    <!-- <view class="page__desc">表单输入</view> -->
+  </view>
+
+  <view class="page__bd">
+
+    <view class="weui-cells__title">用户信息</view>
+    <view class="weui-cells weui-cells_after-title">
+      <view class="weui-cell weui-cell_access" bindtap='catUserInfo'>
+        <view class="weui-cell__hd" style="position: relative;margin-right: 10px;">
+          <image src="{{avatar ? avatar : defaultPortrait}}" style="width: 128rpx; height: 128rpx; margin: 20rpx; border-radius: 50%; display: block" />
+        </view>
+      </view>
+    </view>
+
+    <view class="weui-cells__title"></view>
+    <view class="weui-cells weui-cells_after-title">
+      <view class="weui-cell weui-cell_input weui-cell_vcode">
+        <view class="weui-cell__hd">
+          <view class="weui-label">ID</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input disabled='false' class="weui-input" placeholder="用户ID" value="{{userid}}" />
+        </view>
+        <view class="weui-cell__ft">
+          <view class="weui-vcode-btn" bindtap='copyUserId'>复制</view>
+        </view>
+      </view>
+
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">姓名</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input disabled='false' class="weui-input" placeholder="姓名" value="{{username ? username : '新用户'}}" />
+        </view>
+      </view>
+
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">性别</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input disabled='false' class="weui-input" placeholder="性别" value="{{genderNames[genderIndex]}}" />
+        </view>
+      </view>
+
+
+    </view>
+    <view class="weui-cells__tips"></view>
+
+    <view class="weui-btn-area">
+      <button class="weui-btn" type="primary" bindtap="updateUserInfo">替换为微信的用户名和头像</button>
+    </view>
+
+  </view>
+</view>

@@ -16,6 +16,51 @@ let util = {
       content: content
     })
   },
+  formatTime(date){
+    const year = date.getFullYear()
+    const month = date.getMonth() + 1
+    const day = date.getDate()
+    const hour = date.getHours()
+    const minute = date.getMinutes()
+    const second = date.getSeconds()
+
+    return [year, month, day].map(formatNumber).join('-') + ' ' + [hour, minute, second].map(formatNumber).join(':')
+  },
+  formatNumber(n) {
+    n = n.toString()
+    return n[1] ? n : '0' + n
+  },
+  getDateByStr(dateStr) {
+    let date = new Date(dateStr.replace("-", "/"));
+    return date;
+  },
+  getDateByAddMinutes(date, intervalMinutes) {
+    let newDate = new Date();
+    newDate.setTime(date.getTime() + intervalMinutes * 60 * 1000);
+    return newDate;
+  },
+  getToday() {
+    let now = new Date();
+    let todayYear = now.getFullYear();
+    let todayMonth = ('0' + (now.getMonth() + 1)).slice(-2);
+    let todayDay = ('0' + now.getDate()).slice(-2);
+    let todayHour = ('0' + now.getHours()).slice(-2);
+    let todayMinutes = ('0' + now.getMinutes()).slice(-2);
+    let todaySeconds = ('0' + now.getSeconds()).slice(-2);
+
+    let todayFormat = `${todayYear}-${todayMonth}-${todayDay}`;
+    return todayFormat;
+  },
+  getTodayMaxTime() {
+    let today = getToday();
+    console.log("today: " + today);
+    let todayWithTime = today + " 23:59:59";
+    console.log("todayWithTime: " + todayWithTime);
+    let newDate = new Date(todayWithTime.replace("-", "/"));
+    let maxTime = newDate.getTime();
+    console.log("maxTime: " + maxTime);
+    return maxTime;
+  },
   getStorageData(key, cb) {
     let self = this;
 

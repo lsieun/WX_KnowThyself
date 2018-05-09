@@ -1,27 +1,44 @@
+'use strict';
+
+import config from '../../utils/config'
+
 //获取应用实例
 var app = getApp();
 
 let handler = {
-  data: {},
+  data: {
+    defaultPortrait: ""
+  },
   onLoad: function (options){
+    this.setData({
+      defaultPortrait: config.defaultImg.portraitImg
+    });
+  },
+  onShow: function () {
     var that = this;
-    if (app.globalData.userInfo){
-      this.setData({
-        userInfo: app.globalData.userInfo
-      })
+    displayUserInfo(that);
+  },
+  catUserInfo: function(){
+    if (!app.globalData.userInfo || !app.globalData.userInfo.uid){
+      return;
     }
-    else{
-      setTimeout(function(){
-        if (app.globalData.userInfo) {
-          that.setData({
-            userInfo: app.globalData.userInfo
-          })
-        }
-      },2000);
-    }
+    wx.navigateTo({
+      url: '../userinfo/userinfo'
+    })
   }
 };
 
 Page(handler);
 
-
+function displayUserInfo(page){
+  if (app.globalData.userInfo) {
+    page.setData({
+      userInfo: app.globalData.userInfo
+    })
+  }
+  else{
+    setTimeout(function(){
+      displayUserInfo(page);
+    },2000);
+  }
+}

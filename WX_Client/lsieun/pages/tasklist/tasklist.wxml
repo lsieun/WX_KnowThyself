@@ -2,14 +2,18 @@
   <view class="page__hd">
     <view class="page__title">重视贡献</view>
     <view class="page__desc">要事优先 | 一次只做好一件事 |
-      <navigator url="/pages/taskall/taskall" class="weui-agree__link">全部任务</navigator>  | 
+      <navigator url="/pages/taskall/taskall" class="weui-agree__link">全部任务</navigator> |
       <navigator url="/pages/taskcreate/taskcreate" class="weui-agree__link">添加任务</navigator>
     </view>
   </view>
 
   <view class="page__bd">
-    <view class="weui-cells__title">需要完成的任务</view>
-    <view class="weui-cells weui-cells_after-title">
+    <view class="weui-footer" wx:if="{{!taskList || taskList.length<1}}" style="position:absolute;top:50%;text-align:center;left:30%">
+      <view class="weui-footer__text">您还没有添加任务哟~~~</view>
+    </view>
+
+    <view class="weui-cells__title" wx:if="{{taskToDoList  && taskToDoList.length > 0}}">需要完成的任务</view>
+    <view class="weui-cells weui-cells_after-title" wx:if="{{taskToDoList  && taskToDoList.length > 0}}">
 
       <block wx:for="{{taskToDoList}}" wx:for-item="task">
         <view class="weui-cell" bindlongtap='delTask' data-taskid='{{task.uid}}' data-taskname='{{task.name}}'>
@@ -24,8 +28,8 @@
       </block>
     </view>
 
-    <view class="weui-cells__title">已经完成的任务</view>
-    <view class="weui-cells weui-cells_after-title">
+    <view class="weui-cells__title" wx:if="{{taskDoneList && taskDoneList.length > 0}}">已经完成的任务</view>
+    <view class="weui-cells weui-cells_after-title" wx:if="{{taskDoneList && taskDoneList.length > 0}}">
       <block wx:for="{{taskDoneList}}" wx:for-item="task">
         <view class="weui-cell" bindlongtap='delTask' data-taskid='{{task.uid}}' data-taskname='{{task.name}}'>
           <view class="weui-cell__hd">
