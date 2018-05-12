@@ -1,0 +1,25 @@
+<view class="page">
+  <view class="page__bd">
+    <view class="weui-cells__title"></view>
+    <form bindsubmit='formSubmit' bindreset='formReset'>
+      <view class="weui-cells weui-cells_after-title">
+
+        <!-- 时间类型 -->
+        <view class="weui-cell weui-cell_input">
+          <view class="weui-cell__hd">
+            <view class="weui-label">时间类型</view>
+          </view>
+          <view class="weui-cell__bd">
+            <input class="weui-input" name="name" placeholder="输入名称" value="{{timelineTypeName}}" bindinput='onInputName'/>
+          </view>
+          <view class="weui-cell__ft">
+            <view class="weui-vcode-btn" bindtap='saveTimelineType'>保存</view>
+          </view>
+        </view>
+
+      </view>
+
+      <view class="weui-cells__tips"></view>
+    </form>
+  </view>
+</view>
