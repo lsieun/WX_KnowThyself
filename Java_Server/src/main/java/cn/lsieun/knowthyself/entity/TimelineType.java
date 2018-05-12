@@ -2,7 +2,7 @@ package cn.lsieun.knowthyself.entity;
 
 import java.util.Date;
 
-public class TimelineType {
+public class TimelineType extends CommonEntity{
     private String uid;
     private String userid;
     private String name;

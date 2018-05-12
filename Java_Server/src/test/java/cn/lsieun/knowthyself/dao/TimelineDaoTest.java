@@ -70,7 +70,7 @@ public class TimelineDaoTest {
         entity.setUid(uid);
         entity.setUserid("userid");
         entity.setName("name");
-        entity.setTimelineType(0);
+        entity.setTimelineType("0");
         entity.setStartTime(now);
         entity.setEndTime(newTime);
 

@@ -25,6 +25,22 @@ let handler = {
     wx.navigateTo({
       url: '../userinfo/userinfo'
     })
+  },
+  openTimelineType: function(){
+    if (!app.globalData.userInfo || !app.globalData.userInfo.uid) {
+      return;
+    }
+    wx.navigateTo({
+      url: '../timelinetypelist/timelinetypelist'
+    })    
+  },
+  openTimeStatistics: function(){
+    if (!app.globalData.userInfo || !app.globalData.userInfo.uid) {
+      return;
+    }
+    wx.navigateTo({
+      url: '../timestatistics/timestatistics'
+    })     
   }
 };
 

@@ -20,7 +20,15 @@ let handler = {
     task_add: "/task/add",
     task_modify: "/task/modify",
     task_info: "/task/info",
-    task_all:"/task/all"
+    task_all:"/task/all",
+    timelinetype_add: "/timelinetype/add",
+    timelinetype_modify: "/timelinetype/modify",
+    timelinetype_list: "/timelinetype/list",
+    timelinetype_info: "/timelinetype/info",
+    timeline_info: "/timeline/info",
+    timeline_add: "/timeline/add",
+    timeline_modify:"/timeline/modify",
+    timeline_daylist: "/timeline/daylist"
   },
   onLaunch: function () {
     this.wxLogin();

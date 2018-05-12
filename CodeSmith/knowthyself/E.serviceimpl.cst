@@ -44,14 +44,7 @@ public class <%= clazzName %>ServiceImpl implements <%= clazzName %>Service{
     private <%= clazzName %>Dao dao; 
 
     @Override
-    public <%= clazzName %>DTO get<%= clazzName %>(String uid) {
-        <%= clazzName %> <%= getCamelCaseName(clazzName) %> = dao.getById(uid);
-        <%= clazzName %>DTO dto = entity2DTO(<%= getCamelCaseName(clazzName) %>);
-        return dto;
-    }
-
-    @Override
-    public TaskDTO create<%= clazzName %>(<%= clazzName %> <%= getCamelCaseName(clazzName) %>) {
+    public <%= clazzName %>DTO create<%= clazzName %>(<%= clazzName %> <%= getCamelCaseName(clazzName) %>) {
         /*
         处理思路：
         （1）进行数据有效性检验
@@ -66,7 +59,7 @@ public class <%= clazzName %>ServiceImpl implements <%= clazzName %>Service{
         // region （2）将数据添加到数据库中
         long sid = snowflakeIdWorker.nextId();
         String uid = String.valueOf(sid);
-        task.setUid(uid);
+        <%= getCamelCaseName(clazzName) %>.setUid(uid);
 
         int effectedNum = dao.insert(<%= getCamelCaseName(clazzName) %>);
         if(effectedNum != 1) throw new <%= clazzName %>Exception("操作失败，数据库出错啦！");
@@ -104,16 +97,26 @@ public class <%= clazzName %>ServiceImpl implements <%= clazzName %>Service{
 	}
 
 	@Override
-	public <%= clazzName %>DTO getById(String uid) {
-        Task task = dao.getById(uid);
-        TaskDTO dto = entity2DTO(task);
+	public <%= clazzName %>DTO get<%= clazzName %>(String uid) {
+        <%= clazzName %> <%= getCamelCaseName(clazzName) %> = dao.getById(uid);
+        <%= clazzName %>DTO dto = entity2DTO(<%= getCamelCaseName(clazzName) %>);
         return dto;
 	}
+    
+    @Override
+    public boolean delete(String uid) {
+        <%= clazzName %> <%= getCamelCaseName(clazzName) %> = new <%= clazzName %>();
+        <%= getCamelCaseName(clazzName) %>.setUid(uid);
+        <%= getCamelCaseName(clazzName) %>.setIsValid(0);
+        int effectedNum = dao.update(<%= getCamelCaseName(clazzName) %>);
+        if(effectedNum != 1) return false;
+        return true;
+    }    
 
 	@Override
 	public List<<%= clazzName %>DTO> getList(Map<String,String> queryMap) {
-        List<Task> taskList = dao.getList(queryMap);
-        List<TaskDTO> dtoList = entityList2DTOList(taskList);
+        List<<%= clazzName %>> <%= getCamelCaseName(clazzName) %>List = dao.getList(queryMap);
+        List<<%= clazzName %>DTO> dtoList = entityList2DTOList(<%= getCamelCaseName(clazzName) %>List);
         return dtoList;
 	}
 
@@ -121,77 +124,69 @@ public class <%= clazzName %>ServiceImpl implements <%= clazzName %>Service{
     public int getCount(Map<String,String> queryMap) {
         return dao.getCount(queryMap);
 	}
-    
+      
     @Override
-    public BaseResponseObject getXXX(Map paramMap) {
-        BaseResponseObject responseObject = new BaseResponseObject(Boolean.FALSE,"","");
-        // region log
-        if(LOGGER.isInfoEnabled()) {
-            LOGGER.info("<%= clazzName %>ServiceImpl==>getXXX==>paramMap: " + gson.toJson(paramMap));
+    public <%= clazzName %>DTO entity2DTO(<%= clazzName %> entity) {
+        <%= clazzName %>DTO dto = new <%= clazzName %>DTO();
+        try {
+            PropertyUtils.copyProperties(dto,entity);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
-        // endregion        
-        try
-        {
-            /*
-            （1）读取输入参数
-            （2）对参数进行校验；如果不合法，则提前返回
-            （3）处理业务逻辑
-             */
-             
-            // region (1) 检查参数，如果不合法，则提前返回
-            String customerId = StringTool.getMapString(paramMap, "customerId");     //必传参数，否则提前返回
-            String customerName = StringTool.getMapString(paramMap, "customerName"); //必传参数，否则提前返回
-            String title = StringTool.getMapString(paramMap, "title");
-            String notice = StringTool.getMapString(paramMap, "notice");
-            String type = StringTool.getMapString(paramMap, "type"); //必传参数，直播类型(1-手术直播，2-学术会议，3-产品推荐，4-器械操作，5-手术解说，6-病例讨论)
-            String startTime = StringTool.getMapString(paramMap, "startTime"); //必传参数，否则提前返回
-            String endTime = StringTool.getMapString(paramMap, "endTime"); //必传参数，否则提前返回
-            String visitSiteId = StringTool.getMapString(paramMap, "visitSiteId"); //FIXME: 是否考虑了站点信息
-            // endregion
+        return dto;
+    }
 
-            // region （2）参数有效性校验，如果不合法，则提前返回
-            if(StringUtils.isBlank(customerId)){
-                responseObject.setResponseStatus(Boolean.FALSE);
-                responseObject.setResponseCode("NO");
-                responseObject.setResponseMessage("customerId不能为空");
-                // region log
-                if(LOGGER.isInfoEnabled()) {
-                    LOGGER.info("PersonalLivePlanServiceImpl===>getXXX==>responseObject==>" + gson.toJson(responseObject));
-                }
-                // endregion
-                return responseObject;
-            }
-            // endregion             
-            Long primaryKeyId = System.currentTimeMillis();
-			paramMap.put("xxxId", primaryKeyId); //FIXME: RK这里需要修改XXX          
-            // region log
-            if(LOGGER.isInfoEnabled()) {
-                LOGGER.info("<%= clazzName %>ServiceImpl===>getXXX==>paramMap==>" + gson.toJson(paramMap));
-            }
-            // endregion
-            
-            Long count = dao.insert(paramMap);
-            Long pkId = Long.parseLong(StringTool.getMapString(paramMap, "id"));
-            // region log
-            if(LOGGER.isInfoEnabled()) {
-                LOGGER.info("<%= clazzName %>ServiceImpl==>getXXX==>count: " + count);
-                LOGGER.info("<%= clazzName %>ServiceImpl==>getXXX==>pkId: " + pkId);
-            }
-            // endregion
-            responseObject.setResponsePk(pkId);
-			responseObject.setResponseMessage("SUCCESS");
-			responseObject.setResponseStatus(Boolean.TRUE);
-        } catch (Exception ex){
-            LOGGER.error("<%= clazzName %>ServiceImpl===>getXXX==>Exception==>", ex);
-            responseObject.setResponseMessage("ERROR");
-			responseObject.setResponseStatus(Boolean.FALSE);
+    @Override
+    public List<<%= clazzName %>DTO> entityList2DTOList(List<<%= clazzName %>> entityList) {
+        if(entityList == null) return null;
+        List<<%= clazzName %>DTO> dtoList = new ArrayList<<%= clazzName %>DTO>();
+        for(<%= clazzName %> entity : entityList){
+            <%= clazzName %>DTO dto = entity2DTO(entity);
+            dtoList.add(dto);
         }
-        // region log
-        if(LOGGER.isInfoEnabled()) {
-            LOGGER.info("<%= clazzName %>ServiceImpl===>getXXX==>responseObject==>" + gson.toJson(responseObject));
+        return dtoList;
+    }
+
+    //TODO: 用户里也改成这样吧。
+    @Override
+    public ValidationDTO validate(<%= clazzName %> <%= getCamelCaseName(clazzName) %>, boolean isCreate) {
+        String operation = (isCreate)?("添加"):("更新");
+        String errMsg = "";
+        if(<%= getCamelCaseName(clazzName) %> == null)
+        {
+            errMsg = operation + "任务失败，任务不能为空！";
+            return new ValidationDTO(false,errMsg);
         }
-        // endregion
-        return responseObject;
-    }    
+        if(isCreate && StringUtils.isNotBlank(<%= getCamelCaseName(clazzName) %>.getUid())){
+            errMsg = "创建任务失败，主键ID不为空！";
+            return new ValidationDTO(false,errMsg);
+        }
+        if(!isCreate && StringUtils.isBlank(<%= getCamelCaseName(clazzName) %>.getUid())){
+            errMsg = "更新任务失败，主键ID不能为空！";
+            return new ValidationDTO(false,errMsg);
+        }
+        if(StringUtils.isBlank(<%= getCamelCaseName(clazzName) %>.getUserid())) {
+            errMsg = operation + "任务失败，用户ID不能为空！";
+            return new ValidationDTO(false,errMsg);
+        }
+        if(StringUtils.isBlank(<%= getCamelCaseName(clazzName) %>.getName())) {
+            errMsg = operation + "任务失败，任务名称不能为空！";
+            return new ValidationDTO(false,errMsg);
+        }
+        if(<%= getCamelCaseName(clazzName) %>.getStartTime() == null){
+            errMsg = operation + "任务失败，开始时间不能为空！";
+            return new ValidationDTO(false,errMsg);
+        }
+        if(<%= getCamelCaseName(clazzName) %>.getEndTime() == null){
+            errMsg = operation + "任务失败，结束时间不能为空！";
+            return new ValidationDTO(false,errMsg);
+        }
+        if(<%= getCamelCaseName(clazzName) %>.getStartTime().after(task.getEndTime())){
+            errMsg = operation + "任务失败，开始时间不能晚于结束时间！";
+            return new ValidationDTO(false,errMsg);
+        }
+
+        return new ValidationDTO(true,errMsg);
+    }
 
 }

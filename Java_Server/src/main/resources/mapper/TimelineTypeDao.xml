@@ -38,10 +38,10 @@
     <sql id="sqlOrderByClause">
         <if test="sortType!=null and sortType!=''">
             <if test="sortType==1">
-                order by id asc
+                order by convert(`name` using gbk) asc
             </if>
             <if test="sortType==2">
-                order by id asc
+                order by convert(`name` using gbk) desc
             </if>
             <if test="sortType==3">
                 order by create_time asc

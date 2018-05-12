@@ -2,12 +2,18 @@ package cn.lsieun.knowthyself.entity;
 
 import java.util.Date;
 
-public class Timeline {
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+import cn.lsieun.knowthyself.util.json.CustomJsonDateDeserializer;
+
+public class Timeline extends CommonEntity{
     private String uid;
     private String userid;
     private String name;
-    private Integer timelineType;
+    private String timelineType;
+    @JsonDeserialize(using = CustomJsonDateDeserializer.class)
     private Date startTime;
+    @JsonDeserialize(using = CustomJsonDateDeserializer.class)
     private Date endTime;
     private Date createTime;
     private Date lastEditTime;
@@ -34,10 +40,10 @@ public class Timeline {
         this.name = name;
     }
 
-    public Integer getTimelineType(){
+    public String getTimelineType(){
         return this.timelineType;
     }
-    public void setTimelineType(Integer timelineType){
+    public void setTimelineType(String timelineType){
         this.timelineType = timelineType;
     }
 

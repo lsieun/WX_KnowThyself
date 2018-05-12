@@ -2,8 +2,8 @@
   <view class="page__hd">
     <view class="page__title">重视贡献</view>
     <view class="page__desc">要事优先 | 一次只做好一件事 |
-      <navigator url="/pages/taskall/taskall" class="weui-agree__link">全部任务</navigator> |
-      <navigator url="/pages/taskcreate/taskcreate" class="weui-agree__link">添加任务</navigator>
+      <navigator url="" class="weui-agree__link" bindtap='OnTaskListAll'>全部任务</navigator> |
+      <navigator url="" class="weui-agree__link" bindtap='OnTaskAdd'>添加任务</navigator>
     </view>
   </view>
 

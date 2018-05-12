@@ -53,9 +53,6 @@ let handler = {
     });
   },
   formSubmit: function (e) {
-    console.log("this.data==> " + JSON.stringify(this.data));
-    console.log("e.detail==> " + JSON.stringify(e.detail));
-
     var that = this;
 
     if (!app.globalData.userInfo || !app.globalData.userInfo.uid) {

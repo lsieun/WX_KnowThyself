@@ -23,7 +23,6 @@ let handler = {
     // var that = this;
     // displayTaskList(that);
   },
-
   taskStatusChange: function(e){
     var that = this;
 
@@ -67,6 +66,35 @@ let handler = {
     wx.navigateTo({
       url: '../taskcreate/taskcreate?taskid=' + taskid,
     })
+  },
+  OnTaskListAll: function(){
+    if (!app.globalData.userInfo || !app.globalData.userInfo.uid) {
+      wx.showToast({
+        title: '您好像没有登录哎~~~',
+        icon: 'none',
+        duration: 3000
+      });
+      return;
+    }
+
+    wx.navigateTo({
+      url: '../taskall/taskall'
+    })
+
+  },
+  OnTaskAdd: function(){
+    if (!app.globalData.userInfo || !app.globalData.userInfo.uid) {
+      wx.showToast({
+        title: '您好像没有登录哎~~~',
+        icon: 'none',
+        duration: 3000
+      });
+      return;
+    }
+
+    wx.navigateTo({
+      url: '../taskcreate/taskcreate'
+    })    
   }
 
 };

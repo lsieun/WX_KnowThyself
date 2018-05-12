@@ -10,7 +10,7 @@
           <view class="weui-label">事项名称</view>
         </view>
         <view class="weui-cell__bd">
-          <input class="weui-input" placeholder="请输入事项名称" />
+          <input class="weui-input" placeholder="请输入事项名称" value="{{timelineName}}" bindinput='onInputName'/>
         </view>
       </view>
 
@@ -20,8 +20,8 @@
           <view class="weui-label">事项类别</view>
         </view>
         <view class="weui-cell__bd">
-          <picker range="{{thingsTypes}}" value="{{typeIndex}}" bindchange="bindTypeChange">
-            <view class="weui-select weui-select_in-select-after">{{thingsTypes[typeIndex]}}</view>
+          <picker range="{{typeNames}}" value="{{typeIndex}}" bindchange="bindTypeChange">
+            <view class="weui-select weui-select_in-select-after">{{typeNames[typeIndex]}}</view>
           </picker>
         </view>
       </view>
@@ -32,8 +32,8 @@
           <view class="weui-label">事项日期</view>
         </view>
         <view class="weui-cell__bd">
-          <picker mode="date" value="{{currentDate}}" start="{{pickeStartDate}}" end="{{pickerEndDate}}" bindchange="bindCurrentDateChange">
-            <view class="weui-input">{{currentDate}}</view>
+          <picker mode="date" value="{{currentDay}}" start="{{pickeStartDate}}" end="{{pickerEndDate}}" bindchange="bindCurrentDateChange">
+            <view class="weui-input">{{currentDay}}</view>
           </picker>
         </view>
       </view>
@@ -64,11 +64,11 @@
 
     </view>
 
-    <view class="weui-cells__tips">底部说明文字底部说明文字</view>
+    <view class="weui-cells__tips"></view>
 
     <!-- OK -->
     <view class="weui-btn-area">
-      <button class="weui-btn" type="primary" bindtap="createTask">OK</button>
+      <button class="weui-btn" type="primary" bindtap="saveTimeline">保存</button>
     </view>
   </view>
 </view>

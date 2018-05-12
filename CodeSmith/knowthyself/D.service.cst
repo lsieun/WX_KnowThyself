@@ -21,17 +21,17 @@ import cn.lsieun.knowthyself.entity.<%= clazzName %>;
 
 public interface <%= clazzName %>Service {
 
-    <%= clazzName %>DTO create(<%= clazzName %> <%= getCamelCaseName(clazzName) %>);
+    <%= clazzName %>DTO create<%= clazzName %>(<%= clazzName %> <%= getCamelCaseName(clazzName) %>);
 
-    boolean update(<%= clazzName %> <%= getCamelCaseName(clazzName) %>);
+    boolean modify(<%= clazzName %> <%= getCamelCaseName(clazzName) %>);
     
     boolean delete(String uid);
 
-    <%= clazzName %>DTO getById(String uid);
+    <%= clazzName %>DTO get<%= clazzName %>(String uid);
 
     List<<%= clazzName %>DTO> getList(Map<String,String> queryMap);
 
-    int getCount(Map paramMap);
+    int getCount(Map<String,String> queryMap);
     
     <%= clazzName %>DTO entity2DTO(<%= clazzName %> entity);
     

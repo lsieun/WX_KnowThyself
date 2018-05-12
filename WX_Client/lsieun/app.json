@@ -1,12 +1,16 @@
 {
   "pages": [
-    "pages/tasklist/tasklist",
     "pages/usercenter/usercenter",
-    "pages/userinfo/userinfo",
+    "pages/timestatistics/timestatistics",
+    "pages/timeline/timeline",
     
+    "pages/timelinetypelist/timelinetypelist",
+    "pages/timelinetype/timelinetype",
+    "pages/userinfo/userinfo",
+    "pages/tasklist/tasklist",
     "pages/test/test",
     "pages/index/index",
-    "pages/timeline/timeline",
+    
     "pages/timerecord/timerecord",
     "pages/timelinestats/timelinestats",
     "pages/taskcreate/taskcreate",

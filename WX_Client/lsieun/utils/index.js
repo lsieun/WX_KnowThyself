@@ -39,6 +39,23 @@ let util = {
     newDate.setTime(date.getTime() + intervalMinutes * 60 * 1000);
     return newDate;
   },
+  getyyMMdd(date){
+    let year = date.getFullYear();
+    let month = ('0' + (date.getMonth() + 1)).slice(-2);
+    let day = ('0' + date.getDate()).slice(-2);
+    let hour = ('0' + date.getHours()).slice(-2);
+    let minutes = ('0' + date.getMinutes()).slice(-2);
+    let seconds = ('0' + date.getSeconds()).slice(-2);
+
+    let dateFormat = `${year}-${month}-${day}`;
+    return dateFormat;
+  },
+  gethhmm(date){
+    let hour = ('0' + date.getHours()).slice(-2);
+    let minutes = ('0' + date.getMinutes()).slice(-2);
+    let hhmm = `${hour}:${minutes}`;
+    return hhmm;
+  },
   getToday() {
     let now = new Date();
     let todayYear = now.getFullYear();
@@ -51,14 +68,13 @@ let util = {
     let todayFormat = `${todayYear}-${todayMonth}-${todayDay}`;
     return todayFormat;
   },
-  getTodayMaxTime() {
-    let today = getToday();
-    console.log("today: " + today);
-    let todayWithTime = today + " 23:59:59";
-    console.log("todayWithTime: " + todayWithTime);
+  getTodayMaxTime(date) {
+    let yyyyMMdd = this.getyyMMdd(date);
+    let todayWithTime = yyyyMMdd + " 23:59:59";
+
     let newDate = new Date(todayWithTime.replace("-", "/"));
     let maxTime = newDate.getTime();
-    console.log("maxTime: " + maxTime);
+
     return maxTime;
   },
   getStorageData(key, cb) {

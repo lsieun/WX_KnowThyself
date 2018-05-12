@@ -4,30 +4,41 @@
   <view class='header'>
     <!-- 头像 -->
     <view class="userinfo-avatar-box" animation="{{userAvatarParentAnimation}}" catchtap="userAvatarTap">
-      <image class="userinfo-avatar" src="/images/hourglass.png" animation="{{userAvatarAnimation}}" 
-        bindtouchstart="userAvatarTouchStart" 
-        bindtouchend="userAvatarTouchEnd" 
-        bindtouchmove="userAvatarTouchMove"></image>
+      <image class="userinfo-avatar" src="/images/hourglass.png" animation="{{userAvatarAnimation}}"></image>
     </view>
   </view>
 
   <!-- content -->
   <view class='content'>
 
-    <view class="record-date">
-      <text class="record-date-text">1日</text>
+    <!-- <view class="record-date">
+      <text class="record-date-text">{{currentDate}} </text>
       <text class="record-date-statistics">500元</text>
     </view>
     <view class="record-item">
-
+      <image src="/images/time_128px_128px.png" class="record-item-icon" catchtap="recordChange"></image>
       <text class='record-item-name'>小明明</text>
       <text class="record-item-text">太放大</text>
-    </view>
-    <view class="record-item">
+    </view> -->
 
-      <text class='record-item-name'>19:01</text>
-      <text class="record-item-text">lalala</text>
-    </view>    
+    <view class="record">
+      <view class="record-date">
+        <text class="record-date-text">{{currentDay}}</text>
+        <text class="record-date-statistics">记录{{totalTime}}</text>
+      </view>
+    </view>
+
+    <block wx:key="{{index}}" wx:for="{{timelineList}}">
+
+      <view class="record">
+        <view class="record-item">
+          <image src="/images/time_128px_128px.png" class="record-item-icon" data-uid="{{item.uid}}" bindtap="editTimeline"></image>
+          <text class="record-item-name">{{item.startTime}}</text>
+          <text class="record-item-text">{{item.name}}</text>
+        </view>
+      </view>
+
+    </block>
 
   </view>
 

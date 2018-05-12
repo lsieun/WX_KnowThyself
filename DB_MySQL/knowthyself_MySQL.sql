@@ -87,5 +87,7 @@ CREATE TABLE `tb_timeline_type`(
 	PRIMARY KEY(`uid`)
 )ENGINE=INNODB DEFAULT CHARSET=utf8 COMMENT='时间线类型表';
 
+SELECT * FROM `tb_timeline_type`
 
+SELECT * FROM `tb_timeline`
 

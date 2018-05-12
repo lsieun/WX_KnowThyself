@@ -1,19 +1,28 @@
 package cn.lsieun.knowthyself.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 import java.util.Date;
 
-public class TaskDTO extends CommonDTO {
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+public class TimelineDTO extends CommonDTO {
     private String uid;
     private String userid;
     private String name;
-    private Integer priority;
+    private String timelineType;
     @JsonFormat(locale="zh", timezone="GMT+8", pattern = "yyyy-MM-dd")
+    private Date currentDay;
+    @JsonFormat(locale="zh", timezone="GMT+8", pattern = "HH:mm")
     private Date startTime;
-    @JsonFormat(locale="zh", timezone="GMT+8", pattern = "yyyy-MM-dd")
+    @JsonFormat(locale="zh", timezone="GMT+8", pattern = "HH:mm")
     private Date endTime;
-    private Integer status;
+
+    public Date getCurrentDay() {
+        return currentDay;
+    }
+
+    public void setCurrentDay(Date currentDay) {
+        this.currentDay = currentDay;
+    }
 
     public String getUid() {
         return uid;
@@ -39,12 +48,12 @@ public class TaskDTO extends CommonDTO {
         this.name = name;
     }
 
-    public Integer getPriority() {
-        return priority;
+    public String getTimelineType() {
+        return timelineType;
     }
 
-    public void setPriority(Integer priority) {
-        this.priority = priority;
+    public void setTimelineType(String timelineType) {
+        this.timelineType = timelineType;
     }
 
     public Date getStartTime() {
@@ -61,13 +70,5 @@ public class TaskDTO extends CommonDTO {
 
     public void setEndTime(Date endTime) {
         this.endTime = endTime;
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
     }
 }
