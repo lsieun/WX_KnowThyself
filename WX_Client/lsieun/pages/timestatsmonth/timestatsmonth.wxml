@@ -1,0 +1,3 @@
+<view class="container">
+  <ec-canvas id="mychart-timeline-pie" canvas-id="mychart-pie" ec="{{ ec }}"></ec-canvas>
+</view>

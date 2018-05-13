@@ -60,6 +60,11 @@ let handler = {
       typeIndex: e.detail.value
     });
   },
+  bindCurrentDateChange: function (e) {
+    this.setData({
+      currentDay: e.detail.value
+    });
+  },
   bindStartTimeChange: function (e) {
     this.setData({
       startTime: e.detail.value

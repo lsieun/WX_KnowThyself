@@ -34,14 +34,30 @@ let handler = {
       url: '../timelinetypelist/timelinetypelist'
     })    
   },
-  openTimeStatistics: function(){
+  openTimeDayStatistics: function(){
     if (!app.globalData.userInfo || !app.globalData.userInfo.uid) {
       return;
     }
     wx.navigateTo({
-      url: '../timestatistics/timestatistics'
+      url: '../timestatsday/timestatsday'
     })     
-  }
+  },
+  openTimeWeekStatistics: function () {
+    if (!app.globalData.userInfo || !app.globalData.userInfo.uid) {
+      return;
+    }
+    wx.navigateTo({
+      url: '../timestatsweek/timestatsweek'
+    })
+  },
+  openTimeMonthStatistics: function () {
+    if (!app.globalData.userInfo || !app.globalData.userInfo.uid) {
+      return;
+    }
+    wx.navigateTo({
+      url: '../timestatsmonth/timestatsmonth'
+    })
+  }    
 };
 
 Page(handler);

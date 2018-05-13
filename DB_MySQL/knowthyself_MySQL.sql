@@ -64,11 +64,13 @@ SELECT * FROM `tb_task` WHERE userid = '441517664024657920';
 
 UPDATE `tb_task` SET is_valid = 1 WHERE userid = '441517664024657920';
 
+DROP TABLE `tb_timeline`;
+
 CREATE TABLE `tb_timeline`(
 	`uid` VARCHAR(128) NOT NULL COMMENT '时间线ID',
 	`userid` VARCHAR(128) NOT NULL COMMENT '用户ID',
 	`name` VARCHAR(20) NOT NULL COMMENT '时间线名称',
-	`timeline_type` INT(1) NOT NULL DEFAULT '0' COMMENT '时间线类型（0-未分类，其他-用户自建类型）',
+	`timeline_type` VARCHAR(128) NOT NULL DEFAULT '0' COMMENT '时间线类型（0-未分类，其他-用户自建类型）',
 	`start_time` DATETIME DEFAULT NULL COMMENT '开始时间',
 	`end_time` DATETIME DEFAULT NULL COMMENT '结束时间',
 	`create_time` DATETIME DEFAULT NOW() NOT NULL COMMENT '创建时间',

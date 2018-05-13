@@ -15,13 +15,13 @@ let handler = {
     taskPrioritys: ["/images/warn_64_red.png", "/images/warn_64_blue.png", "/images/warn_64_pink.png", "/images/warn_64_lightblue.png"]
   },
   onLoad: function (options){
-    var that = this;
-    displayTaskList(that);
+    // var that = this;
+    // displayTaskList(that);
   },
   onShow: function () {
     // 页面显示
-    // var that = this;
-    // displayTaskList(that);
+    var that = this;
+    displayTaskList(that);
   },
   taskStatusChange: function(e){
     var that = this;

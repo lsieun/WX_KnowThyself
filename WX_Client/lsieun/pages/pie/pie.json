@@ -1,5 +1,4 @@
 {
-  "navigationBarTitleText": "光阴计划",
   "usingComponents": {
     "ec-canvas": "../../ec-canvas/ec-canvas"
   }

@@ -28,16 +28,37 @@
     <view class="weui-cells weui-cells_after-title">
       <view class="weui-cell weui-cell_access" bindtap='openTimelineType'>
         <view class="weui-cell__bd">
+        <image src="/images/type_128x128.png" style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;"></image>
           <view style="display: inline-block; vertical-align: middle">时间分类</view>
         </view>
         <view class="weui-cell__ft weui-cell__ft_in-access"></view>
       </view>
-      <view class="weui-cell weui-cell_access" bindtap='openTimeStatistics'>
+      <view class="weui-cell weui-cell_access" bindtap='openTimeDayStatistics'>
         <view class="weui-cell__bd">
+          <image src="/images/day_128x128.png" style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;"></image>
           <view style="display: inline-block; vertical-align: middle">时间统计</view>
         </view>
         <view class="weui-cell__ft weui-cell__ft_in-access"></view>
       </view>
+      <view class="weui-cell weui-cell_access" bindtap='openTimeWeekStatistics'>
+        <view class="weui-cell__bd">
+          <image src="/images/week_128x128.png" style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;"></image>
+          <view style="display: inline-block; vertical-align: middle">时间统计</view>
+        </view>
+        <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+      </view>
+      <view class="weui-cell weui-cell_access" bindtap='openTimeMonthStatistics'>
+        <view class="weui-cell__bd">
+          <image src="/images/month_128x128.png" style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;"></image>
+          <view style="display: inline-block; vertical-align: middle">时间统计</view>
+        </view>
+        <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+      </view>
+
+    </view>
+
+    <view class="weui-cells__title"></view>
+    <view class="weui-cells weui-cells_after-title">
       <view class="weui-cell weui-cell_access">
         <view class="weui-cell__bd">
           <view style="display: inline-block; vertical-align: middle">问题反馈</view>

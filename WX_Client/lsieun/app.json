@@ -1,7 +1,14 @@
 {
   "pages": [
+    "pages/druckerlist/druckerlist",
+    "pages/druckerimage/druckerimage",
+    "pages/startup/startup",
     "pages/usercenter/usercenter",
+    "pages/pie/pie",
     "pages/timestatistics/timestatistics",
+    "pages/timestatsday/timestatsday",
+    "pages/timestatsweek/timestatsweek",
+    "pages/timestatsmonth/timestatsmonth",
     "pages/timeline/timeline",
     
     "pages/timelinetypelist/timelinetypelist",
@@ -50,7 +57,7 @@
       {
         "iconPath": "images/management_128x128.png",
         "selectedIconPath": "images/management_full_128x128.png",
-        "pagePath": "pages/logs/logs",
+        "pagePath": "pages/druckerlist/druckerlist",
         "text": "Drucker"
       },
       {

@@ -1,5 +1,3 @@
-var sliderWidth = 96; // 需要设置slider的宽度，用于计算中间位置
-
 import * as echarts from '../../ec-canvas/echarts';
 
 const app = getApp();
@@ -47,7 +45,18 @@ function initChart(canvas, width, height) {
           shadowColor: 'rgba(0, 2, 2, 0.3)'
         }
       }
-    }]
+    }],
+    toolbox: {
+      show: true,
+      feature: {
+        saveAsImage: {
+          show: true,
+          excludeComponents: ['toolbox'],
+          pixelRatio: 2
+        }
+      }
+    }
+
   };
 
   chart.setOption(option);
@@ -56,30 +65,19 @@ function initChart(canvas, width, height) {
 
 Page({
   data: {
-    tabs: ["日统计", "周统计", "月统计"],
-    activeIndex: 0,
-    sliderOffset: 0,
-    sliderLeft: 0,
     ec: {
       onInit: initChart
     }
   },
-  onLoad: function () {
-    var that = this;
-    wx.getSystemInfo({
-      success: function (res) {
-        that.setData({
-          sliderLeft: (res.windowWidth / that.data.tabs.length - sliderWidth) / 2,
-          sliderOffset: res.windowWidth / that.data.tabs.length * that.data.activeIndex
-        });
-      }
-    });
+
+  onReady() {
   },
-  tabClick: function (e) {
-    this.setData({
-      sliderOffset: e.currentTarget.offsetLeft,
-      activeIndex: e.currentTarget.id
+  save: function () {
+    // 保存图片到临时的本地文件
+    const ecComponent = this.selectComponent('#mychart-dom-pie');
+    ecComponent.canvasToTempFilePath({
+      success: res => console.log(res.tempFilePath),
+      fail: res => console.log(res)
     });
   }
-
 });

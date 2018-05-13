@@ -35,6 +35,8 @@
         <if test="logoTypes!=null and logoTypes!=''">and logo_type in ( ${logoTypes} )</if>
         <!-- time -->
         <if test="currentDate!=null and currentDate!=''">and (DATE_FORMAT(start_time,'%Y-%m-%d') = '${currentDate}')</if>
+        <if test="mondayDate!=null and sundayDate!=null">and (DATE_FORMAT(start_time,'%Y-%m-%d') &gt;= '${mondayDate}' AND DATE_FORMAT(start_time,'%Y-%m-%d') &lt;= '${sundayDate}')</if>
+        <if test="currentMonth!=null and currentMonth!=''">and (DATE_FORMAT(start_time,'%Y-%m') = '${currentMonth}')</if>
         <!-- like -->
         <if test="urlLike != null and urlLike != ''">
             <bind name="logoUrlLike" value="'%' + urlLike + '%'"/>

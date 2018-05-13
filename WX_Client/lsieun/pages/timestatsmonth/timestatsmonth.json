@@ -1,5 +1,5 @@
 {
-  "navigationBarTitleText": "光阴计划",
+  "navigationBarTitleText": "本月时间统计",
   "usingComponents": {
     "ec-canvas": "../../ec-canvas/ec-canvas"
   }

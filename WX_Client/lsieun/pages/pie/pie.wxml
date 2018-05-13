@@ -1,0 +1,4 @@
+<view class="container">
+<view bindtap='save'>Hello</view>
+  <ec-canvas id="mychart-dom-pie" canvas-id="mychart-pie" ec="{{ ec }}"></ec-canvas>
+</view>

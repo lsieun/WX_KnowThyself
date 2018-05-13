@@ -28,7 +28,10 @@ let handler = {
     timeline_info: "/timeline/info",
     timeline_add: "/timeline/add",
     timeline_modify:"/timeline/modify",
-    timeline_daylist: "/timeline/daylist"
+    timeline_daylist: "/timeline/daylist",
+    timestat_day: "/timestat/day",
+    timestat_week: "/timestat/week",
+    timestat_month: "/timestat/month"
   },
   onLaunch: function () {
     this.wxLogin();
