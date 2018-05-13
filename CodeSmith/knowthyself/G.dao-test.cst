@@ -68,6 +68,12 @@ public class <%= clazzName %>DaoTest{
 	
 	@Test
 	public void testAInsert() {
+        Date now = new Date();
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.HOUR_OF_DAY,1);
+        Date newTime = calendar.getTime();
+
+        snowflakeId = snowflakeIdWorker.nextId();    
         String uid = String.valueOf(snowflakeId);
         <%= clazzName %> entity = new <%= clazzName %>();
         entity.setUid(uid);

@@ -30,7 +30,7 @@
     
     <% string fields = ""; %>
     <% foreach(ColumnSchema col in Table.Columns) {%>
-    <% fields = fields + col.Name + ","; %>
+    <% fields = fields + "`" + col.Name + "`,"; %>
     <%} %>
     <% fields = fields.Substring(0,fields.Length-1); %>
     <sql id="baseColumnList" >
@@ -43,7 +43,7 @@
         <% foreach(ColumnSchema col in Table.Columns) {%>
         <% string dbType = getJDBCType(col); %>
         <% string fieldName = getFieldName(col.Name); %>
-        <if test="<%= fieldName %>!=null and <%= fieldName %>!=''">and <%= col.Name %> = #{<%= fieldName %>,jdbcType=<%= dbType %>}</if>
+        <if test="<%= fieldName %>!=null and <%= fieldName %>!=''">and `<%= col.Name %>` = #{<%= fieldName %>,jdbcType=<%= dbType %>}</if>
         <%} %> 
         <!-- in -->
         <if test="refIdList!=null and refIdList!=''">and ref_id in ( ${refIdList} )</if>
@@ -87,16 +87,16 @@
         SELECT 
             <include refid="baseColumnList" />
         FROM <%= Table.Name %>
-        WHERE id = #{id,jdbcType=BIGINT} <%= moreQueryParameter %>
+        WHERE uid = #{uid,jdbcType=VARCHAR} 
     </select>
 
     <!-- 添加 （动态匹配所有有值字段）-->
     <insert id="insert" parameterType="cn.lsieun.knowthyself.entity.<%= clazzName %>" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO <%= Table.Name %>	(uid
+        INSERT INTO <%= Table.Name %>	(`uid`
         <% foreach(ColumnSchema col in Table.Columns) {%>
         <% string fieldName = getFieldName(col.Name); %>
         <% if("uid".Equals(col.Name.ToLower())) continue; %>
-            <if test="<%= fieldName %>!=null">,<%= col.Name %></if>
+            <if test="<%= fieldName %>!=null">,`<%= col.Name %>`</if>
         <%} %>
 		<![CDATA[) values (]]> #{uid, jdbcType=VARCHAR}
             <% foreach(ColumnSchema col in Table.Columns) {%>
@@ -119,7 +119,7 @@
             <% if("update_time".Equals(col.Name.ToLower())) {%>
             <if test="<%= fieldName %>!=null"><%= col.Name %> = NOW(),</if>
             <% continue; }%>
-            <if test="<%= fieldName %>!=null"><%= col.Name %> = #{<%= fieldName %>:<%= dbType %>},</if>
+            <if test="<%= fieldName %>!=null">`<%= col.Name %>` = #{<%= fieldName %>:<%= dbType %>},</if>
             <%} %>
  		</set>
 	    WHERE uid = #{uid, jdbcType=VARCHAR} <%= moreQueryParameter %>

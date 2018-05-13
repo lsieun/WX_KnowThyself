@@ -130,6 +130,8 @@ function refreshTimelineList(page, userid, currentDay){
           var endTime = currentDay + " " + timeline.endTime + ":00";
           var startDate = util.getDateByStr(startTime);
           var endDate = util.getDateByStr(endTime);
+          console.log("startDate = " + startTime);
+          console.log("endDate = " + endTime);
           var diffMinutes = parseInt(endDate - startDate) / 1000 / 60;
           timeline.name = timeline.name + "(" + diffMinutes + "分钟)";
           totalMinutes += diffMinutes;

@@ -44,7 +44,7 @@ public class <%= clazzName %>ServiceImpl implements <%= clazzName %>Service{
     private <%= clazzName %>Dao dao; 
 
     @Override
-    public <%= clazzName %>DTO create<%= clazzName %>(<%= clazzName %> <%= getCamelCaseName(clazzName) %>) {
+    public <%= clazzName %>DTO add<%= clazzName %>(<%= clazzName %> <%= getCamelCaseName(clazzName) %>) {
         /*
         处理思路：
         （1）进行数据有效性检验
@@ -154,35 +154,35 @@ public class <%= clazzName %>ServiceImpl implements <%= clazzName %>Service{
         String errMsg = "";
         if(<%= getCamelCaseName(clazzName) %> == null)
         {
-            errMsg = operation + "任务失败，任务不能为空！";
+            errMsg = operation + "操作失败，对象不能为空！";
             return new ValidationDTO(false,errMsg);
         }
         if(isCreate && StringUtils.isNotBlank(<%= getCamelCaseName(clazzName) %>.getUid())){
-            errMsg = "创建任务失败，主键ID不为空！";
+            errMsg = "创建操作失败，主键ID不为空！";
             return new ValidationDTO(false,errMsg);
         }
         if(!isCreate && StringUtils.isBlank(<%= getCamelCaseName(clazzName) %>.getUid())){
-            errMsg = "更新任务失败，主键ID不能为空！";
+            errMsg = "更新操作失败，主键ID不能为空！";
             return new ValidationDTO(false,errMsg);
         }
         if(StringUtils.isBlank(<%= getCamelCaseName(clazzName) %>.getUserid())) {
-            errMsg = operation + "任务失败，用户ID不能为空！";
+            errMsg = operation + "操作失败，用户ID不能为空！";
             return new ValidationDTO(false,errMsg);
         }
         if(StringUtils.isBlank(<%= getCamelCaseName(clazzName) %>.getName())) {
-            errMsg = operation + "任务失败，任务名称不能为空！";
+            errMsg = operation + "操作失败，任务名称不能为空！";
             return new ValidationDTO(false,errMsg);
         }
         if(<%= getCamelCaseName(clazzName) %>.getStartTime() == null){
-            errMsg = operation + "任务失败，开始时间不能为空！";
+            errMsg = operation + "操作失败，开始时间不能为空！";
             return new ValidationDTO(false,errMsg);
         }
         if(<%= getCamelCaseName(clazzName) %>.getEndTime() == null){
-            errMsg = operation + "任务失败，结束时间不能为空！";
+            errMsg = operation + "操作失败，结束时间不能为空！";
             return new ValidationDTO(false,errMsg);
         }
         if(<%= getCamelCaseName(clazzName) %>.getStartTime().after(task.getEndTime())){
-            errMsg = operation + "任务失败，开始时间不能晚于结束时间！";
+            errMsg = operation + "操作失败，开始时间不能晚于结束时间！";
             return new ValidationDTO(false,errMsg);
         }
 

@@ -8,9 +8,9 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class UtilsConfiguration {
     @Value("${snowflake.dataCenterId}")
-    private static long dataCenterId;
+    private long dataCenterId;
     @Value("${snowflake.dataCenterId}")
-    private static long workerId;
+    private long workerId;
 
     @Bean(name = "snowflakeIdWorker")
     public SnowflakeIdWorker createSnowflakeIdWorker(){

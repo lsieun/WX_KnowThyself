@@ -131,7 +131,7 @@ function refreshTaskList(page, firstResult, maxResult) {
       var taskList = res.data.dataList;
       var hasMore = true;
       var tasknum = 0;
-      if(taskList == null || taskList.lenght < 1){
+      if (taskList == null || taskList.length < 1){
         hasMore = false;
       }
       tasknum = taskList.length;

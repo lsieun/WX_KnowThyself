@@ -93,3 +93,32 @@ SELECT * FROM `tb_timeline_type`
 
 SELECT * FROM `tb_timeline`
 
+CREATE TABLE `tb_drucker`(
+	`uid` VARCHAR(128) NOT NULL COMMENT 'ID',
+	`userid` VARCHAR(128) NOT NULL COMMENT '用户ID',
+	`title` VARCHAR(50) NOT NULL COMMENT '标题',
+	`author` VARCHAR(20)  NULL DEFAULT '' COMMENT '作者',
+	`url` VARCHAR(256) NOT NULL COMMENT 'URL',
+	`desc` VARCHAR(500)  NULL DEFAULT '' COMMENT '描述',
+	`pub_time` DATETIME DEFAULT NULL COMMENT '发布时间',
+	`create_time` DATETIME DEFAULT NOW() NOT NULL COMMENT '创建时间',
+	`last_edit_time` DATETIME DEFAULT NULL COMMENT '更新时间',
+	`is_valid` INT(1) DEFAULT '1' NOT NULL COMMENT '是否有效（0-无效，1-有效）',
+	PRIMARY KEY(`uid`)
+)ENGINE=INNODB DEFAULT CHARSET=utf8 COMMENT='德鲁克表';
+
+SELECT * FROM `tb_drucker`;
+
+
+
+
+
+
+
+
+
+
+
+
+
+

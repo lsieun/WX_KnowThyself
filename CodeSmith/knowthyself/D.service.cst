@@ -21,9 +21,9 @@ import cn.lsieun.knowthyself.entity.<%= clazzName %>;
 
 public interface <%= clazzName %>Service {
 
-    <%= clazzName %>DTO create<%= clazzName %>(<%= clazzName %> <%= getCamelCaseName(clazzName) %>);
+    <%= clazzName %>DTO add<%= clazzName %>(<%= clazzName %> <%= getCamelCaseName(clazzName) %>);
 
-    boolean modify(<%= clazzName %> <%= getCamelCaseName(clazzName) %>);
+    boolean modify<%= clazzName %>(<%= clazzName %> <%= getCamelCaseName(clazzName) %>);
     
     boolean delete(String uid);
 

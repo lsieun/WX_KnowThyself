@@ -31,7 +31,8 @@ let handler = {
     timeline_daylist: "/timeline/daylist",
     timestat_day: "/timestat/day",
     timestat_week: "/timestat/week",
-    timestat_month: "/timestat/month"
+    timestat_month: "/timestat/month",
+    drucker_list: "/drucker/list"
   },
   onLaunch: function () {
     this.wxLogin();
