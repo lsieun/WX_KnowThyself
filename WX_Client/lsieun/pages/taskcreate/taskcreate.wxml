@@ -59,7 +59,7 @@
 
       </view>
 
-      <view class="weui-cells__tips">底部说明文字底部说明文字</view>
+      <view class="weui-cells__tips">提示：请注意选择任务分类哟~ ^_^</view>
 
       <!-- 提交 -->
       <view class="weui-btn-area">

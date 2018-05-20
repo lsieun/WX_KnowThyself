@@ -15,7 +15,7 @@
     <view class="weui-cells__title" wx:if="{{timelineTypeList  && timelineTypeList.length > 0}}"></view>
     <view class="weui-cells weui-cells_after-title" wx:if="{{timelineTypeList  && timelineTypeList.length > 0}}">
 
-      <block wx:for="{{timelineTypeList}}" wx:for-item="timelineType">
+      <block wx:for="{{timelineTypeList}}" wx:key="uid" wx:for-item="timelineType">
         <view class="weui-cell" bindtap='editTimelineType' data-taskid='{{timelineType.uid}}' data-taskname='{{timelineType.name}}'>
           <view class="weui-cell__bd">{{timelineType.name}}</view>
           <view class="weui-cell__ft weui-cell__ft_in-access"></view>

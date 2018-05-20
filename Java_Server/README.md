@@ -9,3 +9,11 @@
 	jdbc.password
 
 
+测试的URL：
+
+    # 测试SpringBoot
+    http://127.0.0.1:8888/kt/test/hello
+    # 测试数据库
+    http://192.168.80.14:8888/kt/test/listarea
+
+

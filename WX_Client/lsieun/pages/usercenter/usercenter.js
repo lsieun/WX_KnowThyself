@@ -57,7 +57,17 @@ let handler = {
     wx.navigateTo({
       url: '../timestatsmonth/timestatsmonth'
     })
-  }    
+  } ,
+  openAboutWxApp: function(){
+    wx.navigateTo({
+      url: '../about/about'
+    })   
+  },
+  openSettings: function(){
+    wx.navigateTo({
+      url: '../settings/settings'
+    })      
+  }
 };
 
 Page(handler);

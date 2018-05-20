@@ -24,6 +24,7 @@ let handler = {
     refreshDruckerList(this, this.data.firstResult, this.data.maxResult);
   },
   onItemClick: function (event) {
+    return;
     var targetUrl = "/pages/druckerimage/druckerimage";
     if (event.currentTarget.dataset.url != null) {
       targetUrl = targetUrl + "?url=" + event.currentTarget.dataset.url;
@@ -38,8 +39,8 @@ let handler = {
   onPullDownRefresh: function () {
     console.log("下拉刷新")
     let that = this;
-    that.setData({
-      itmes: [],
+    this.setData({
+      items: [],
       firstResult: 0,
       maxResult: 3,
       hasMore: true
@@ -76,7 +77,7 @@ function refreshDruckerList(page, firstResult, maxResult) {
     method: "POST",
     success: function (res) {
       var flag = res.data.success;
-      console.log("drucker list==>" + JSON.stringify(res.data));
+      //console.log("drucker list==>" + JSON.stringify(res.data));
 
       if (flag != true) {
         var toastText = "获取数据失败" + res.data.msg;

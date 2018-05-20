@@ -1,6 +1,6 @@
 <view>
 
-   <view class="card" wx:for="{{items}}">
+   <view class="card" wx:for="{{items}}" wx:key="uid">
 
     <view data-url="{{item.url}}" bindtap="onItemClick">
       <image class="image" mode="aspectFill" src="{{item.url}}" />
@@ -8,26 +8,5 @@
     </view>
 
   </view> 
-
-  <!-- <view class="card">
-    <view data-url="http://7xi8d6.com1.z0.glb.clouddn.com/20180122090204_A4hNiG_Screenshot.jpeg" bindtap="onItemClick">
-      <image class="image" mode="aspectFill" src="http://7xi8d6.com1.z0.glb.clouddn.com/20180122090204_A4hNiG_Screenshot.jpeg" />
-      <view class="title">爱一个人最好的方式，是经营好自己，给对方一个优质的爱人。不是拼命对一个人好，那人就会拼命爱你。俗世的感情难免有现实的一面：你有价值，你的付出才有人重视。</view>
-    </view>
-  </view>
-
-  <view class="card">
-    <view data-url="http://7xi8d6.com1.z0.glb.clouddn.com/20180129074038_O3ydq4_Screenshot.jpeg" bindtap="onItemClick">
-      <image class="image" mode="aspectFill" src="http://7xi8d6.com1.z0.glb.clouddn.com/20180129074038_O3ydq4_Screenshot.jpeg" />
-      <view class="title">爱一个人最好的方式，是经营好自己，给对方一个优质的爱人。不是拼命对一个人好，那人就会拼命爱你。俗世的感情难免有现实的一面：你有价值，你的付出才有人重视。</view>
-    </view>
-  </view>  
-
-  <view class="card">
-    <view data-url="https://ws1.sinaimg.cn/large/610dc034ly1foowtrkpvkj20sg0izdkx.jpg" bindtap="onItemClick">
-      <image class="image" mode="aspectFill" src="https://ws1.sinaimg.cn/large/610dc034ly1foowtrkpvkj20sg0izdkx.jpg" />
-      <view class="title">爱一个人最好的方式，是经营好自己，给对方一个优质的爱人。不是拼命对一个人好，那人就会拼命爱你。俗世的感情难免有现实的一面：你有价值，你的付出才有人重视。</view>
-    </view>
-  </view>   -->
 
 </view>

@@ -2,6 +2,10 @@ package cn.lsieun.knowthyself.entity;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+import cn.lsieun.knowthyself.util.json.CustomJsonDateDeserializer;
+
 public class Drucker extends CommonEntity{
 
     private String uid;
@@ -10,6 +14,7 @@ public class Drucker extends CommonEntity{
     private String author;
     private String url;
     private String desc;
+    @JsonDeserialize(using = CustomJsonDateDeserializer.class)
     private Date pubTime;
     private Date createTime;
     private Date lastEditTime;

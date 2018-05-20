@@ -151,9 +151,6 @@ let handler = {
 
 Page(handler)
 
-//TODO
-// 任务名称不能为空
-// 开始时间不能大于结束时间
 
 function displayTaskInfo(page, taskid) {
   var that = page;

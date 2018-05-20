@@ -9,6 +9,7 @@ import cn.lsieun.knowthyself.exception.UserException;
 import cn.lsieun.knowthyself.service.UserService;
 import cn.lsieun.knowthyself.util.constant.StringContants;
 import cn.lsieun.knowthyself.util.json.JSONUtil;
+import cn.lsieun.knowthyself.util.random.CharacterUtils;
 import cn.lsieun.knowthyself.util.snowflake.SnowflakeIdWorker;
 import cn.lsieun.knowthyself.util.weixin.AES;
 import cn.lsieun.knowthyself.util.weixin.WeiXinNetworkUtil;
@@ -84,7 +85,8 @@ public class UserServiceImpl implements UserService {
         long sid = snowflakeIdWorker.nextId();
         String uid = String.valueOf(sid);
         user.setUid(uid);
-        user.setUname("新用户");
+        String randomName = CharacterUtils.getRandomString(4);
+        user.setUname("新用户" + randomName);
         user.setUgender(0);
         user.setUavatar("");
 

@@ -15,8 +15,7 @@ let handler = {
     taskPrioritys: ["/images/warn_64_red.png", "/images/warn_64_blue.png", "/images/warn_64_pink.png", "/images/warn_64_lightblue.png"]
   },
   onLoad: function (options){
-    // var that = this;
-    // displayTaskList(that);
+
   },
   onShow: function () {
     // 页面显示
@@ -111,7 +110,7 @@ function delServerTask(page, taskid){
     method: "POST",
     success: function (res) {
       var flag = res.data.success;
-      console.log("delTask==>" + JSON.stringify(res.data));
+      //console.log("delTask==>" + JSON.stringify(res.data));
       if (flag != true) {
         var toastText = "删除任务失败" + res.data.msg;
         wx.showToast({
@@ -146,7 +145,7 @@ function changeTaskStatus(page, taskid, taskDone){
     method: "POST",
     success: function (res) {
       var flag = res.data.success;
-      console.log("taskStatusChange==>" + JSON.stringify(res.data));
+      //console.log("taskStatusChange==>" + JSON.stringify(res.data));
       if (flag != true) {
         var toastText = "同步数据失败" + res.data.msg;
         wx.showToast({
@@ -194,7 +193,7 @@ function refreshTaskList(page, userid, currentDay) {
     method: "POST",
     success: function (res) {
       let flag = res.data.success;
-      console.log("task==>" + JSON.stringify(res.data));
+      //console.log("task==>" + JSON.stringify(res.data));
       if (flag != true) {
         var toastText = "获取数据失败" + res.data.msg;
         wx.showToast({

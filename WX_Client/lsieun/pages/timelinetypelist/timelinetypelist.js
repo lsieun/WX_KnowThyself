@@ -12,8 +12,6 @@ let handler = {
     timelineTypeList: null
   },
   onLoad: function (options) {
-    // var that = this;
-    // displayTimelineTypeList(that);
   },
   onShow: function () {
     // 页面显示

@@ -2,7 +2,7 @@
 <view class="container">
   <!-- header -->
   <view class='header'>
-    <!-- 头像 -->
+    <!-- 沙漏图片 -->
     <view class="userinfo-avatar-box" animation="{{userAvatarParentAnimation}}" catchtap="userAvatarTap">
       <image class="userinfo-avatar" src="/images/hourglass.png" animation="{{userAvatarAnimation}}"></image>
     </view>
@@ -10,16 +10,6 @@
 
   <!-- content -->
   <view class='content'>
-
-    <!-- <view class="record-date">
-      <text class="record-date-text">{{currentDate}} </text>
-      <text class="record-date-statistics">500元</text>
-    </view>
-    <view class="record-item">
-      <image src="/images/time_128px_128px.png" class="record-item-icon" catchtap="recordChange"></image>
-      <text class='record-item-name'>小明明</text>
-      <text class="record-item-text">太放大</text>
-    </view> -->
 
     <view class="record">
       <view class="record-date">

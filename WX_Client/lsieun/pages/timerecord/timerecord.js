@@ -150,7 +150,7 @@ let handler = {
           duration: 2000,
           success: function () {
             if (that.data.taskid == undefined && flag) {
-              console.log("添加任务成功");
+              //console.log("添加时间线成功");
               wx.navigateBack({
                 delta: 1
               })

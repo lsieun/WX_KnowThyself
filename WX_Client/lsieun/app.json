@@ -1,9 +1,15 @@
 {
   "pages": [
+    
+    "pages/startup/startup",
     "pages/druckerlist/druckerlist",
     "pages/druckerimage/druckerimage",
-    "pages/startup/startup",
+    
     "pages/usercenter/usercenter",
+    "pages/settings/settings",
+
+    "pages/about/about",
+    "pages/aboutApp/aboutApp",
     "pages/pie/pie",
     "pages/timestatistics/timestatistics",
     "pages/timestatsday/timestatsday",
@@ -49,16 +55,10 @@
         "text": "Timeline"
       },
       {
-        "iconPath": "images/groups_128x128.png",
-        "selectedIconPath": "images/groups_full_128x128.png",
-        "pagePath": "pages/test/test",
-        "text": "Group"
-      },
-      {
         "iconPath": "images/management_128x128.png",
         "selectedIconPath": "images/management_full_128x128.png",
         "pagePath": "pages/druckerlist/druckerlist",
-        "text": "Drucker"
+        "text": "Daily"
       },
       {
         "iconPath": "images/user_128x128.png",

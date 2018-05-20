@@ -29,7 +29,10 @@ let handler = {
     this.ecComponent = this.selectComponent('#mychart-timeline-pie');
 
     var userid = app.globalData.userInfo.uid;
-    var currentDay = util.getToday();
+    //var currentDay = util.getToday();
+    var now = new Date();
+    var newDate = util.getDateByAddMinutes(now, (0 - 60 * 9));
+    var currentDay = util.getyyMMdd(newDate);
 
     wx.request({
       url: app.globalData.host + app.urls.timestat_week,
@@ -52,13 +55,14 @@ let handler = {
         }
         var chart_data_list = res.data.dataList;
         if (!chart_data_list || chart_data_list.length < 1) return;
-        initEChart(that, chart_data_list);
+        var title = res.data.data.title;
+        initEChart(that, title, chart_data_list);
       }
     });
   }
 };
 
-function initEChart(page, chart_data_list) {
+function initEChart(page, title, chart_data_list) {
   var that = page;
 
   that.ecComponent.init((canvas, width, height) => {
@@ -69,7 +73,7 @@ function initEChart(page, chart_data_list) {
       height: height
     });
     //setOption(chart);
-    setOptionAndData(chart, chart_data_list);
+    setOptionAndData(chart, title, chart_data_list);
 
     // 将图表实例绑定到 this 上，可以在其他成员函数（如 dispose）中访问
     that.chart = chart;
@@ -81,7 +85,7 @@ function initEChart(page, chart_data_list) {
 
 Page(handler);
 
-function setOptionAndData(chart, chart_data_list) {
+function setOptionAndData(chart, title, chart_data_list) {
 
   var colorArray = [];
   for (var i = 0; i < chart_data_list.length; i++) {
@@ -92,6 +96,16 @@ function setOptionAndData(chart, chart_data_list) {
     backgroundColor: "#ffffff",
     // color: ["#2F9323", "#D9B63A", "#2E2AA4", "#9F2E61", "#4D670C", "#BF675F", "#1F814A", "#357F88", "#673509", "#310937", "#1B9637", "#F7393C"],
     color: colorArray,
+    title: {
+      text: title,
+      x: 'center',
+      y: 10,
+      textStyle: {
+        color: '#333333',
+        fontSize: 20,
+        fontWeight: 'normal',
+      },
+    },	    
     series: [{
       label: {
         normal: {

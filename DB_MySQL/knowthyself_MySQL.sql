@@ -12,6 +12,11 @@ CREATE TABLE `tb_area`(
 	UNIQUE KEY `UK_AREA`(`area_name`)
 ) ENGINE=INNODB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
+INSERT INTO `tb_area`(`area_name`,`priority`) VALUES('西双版纳','3');
+INSERT INTO `tb_area`(`area_name`,`priority`) VALUES('呼伦贝尔','2');
+
+SELECT * FROM `tb_area` ORDER BY `priority` ASC;
+
 SELECT area_id, area_name,
 priority, create_time, last_edit_time
 FROM tb_area

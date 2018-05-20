@@ -7,7 +7,7 @@ let handler = {
   globalData: {
     userInfo: null,
     deviceInfo: {},
-    host: "http://www.lsieun.cn:8888/knowthyself"
+    host: "http://www.lsieun.cn:8888/kt" //"https://www.lsieun.cn/kt"
   },
   urls: {
     user_login: "/user/login",
@@ -122,7 +122,6 @@ function login(app, wx_code) {
     success: function (res) {
       // success
       //wx.hideToast();
-      console.log('服务器返回: ' + JSON.stringify(res.data));
       var result = res.data;
       if (result.success == true) {
         app.globalData.userInfo = result.data;
@@ -147,50 +146,6 @@ function login(app, wx_code) {
   });
 }
 
-function recordLogs() {
-  // 展示本地存储能力
-  var logs = wx.getStorageSync('logs') || []
-  logs.unshift(Date.now())
-  wx.setStorageSync('logs', logs)
-}
-
-function loginaaa(code, encryptedData, iv) {
-  console.log('code=' + code + '&encryptedData=' + encryptedData + '&iv=' + iv);
-  //创建一个dialog
-  wx.showToast({
-    title: '正在登录...',
-    icon: 'loading',
-    duration: 10000
-  });
-
-  //请求服务器
-  wx.request({
-    url: handler.globalData.host + handler.urls.user_login,
-    data: {
-      code: code,
-      encryptedData: encryptedData,
-      iv: iv
-    },
-    method: 'POST', // OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT
-    header: {
-      'content-type': 'application/json'
-    }, // 设置请求的 header
-    success: function (res) {
-      // success
-      //wx.hideToast();
-      console.log('服务器返回' + res.data);
-
-    },
-    fail: function () {
-      // fail
-      // wx.hideToast();
-    },
-    complete: function () {
-      // complete
-      wx.hideToast();
-    }
-  });
-}
 
 function getDeviceInfo(app) {
   let self = app;

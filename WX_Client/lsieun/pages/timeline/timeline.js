@@ -110,7 +110,7 @@ function refreshTimelineList(page, userid, currentDay){
     method: "POST",
     success: function (res) {
       let flag = res.data.success;
-      console.log("task==>" + JSON.stringify(res.data));
+      //console.log("timeline==>" + JSON.stringify(res.data));
       if (flag != true) {
         var toastText = "获取数据失败" + res.data.msg;
         wx.showToast({
@@ -130,8 +130,8 @@ function refreshTimelineList(page, userid, currentDay){
           var endTime = currentDay + " " + timeline.endTime + ":00";
           var startDate = util.getDateByStr(startTime);
           var endDate = util.getDateByStr(endTime);
-          console.log("startDate = " + startTime);
-          console.log("endDate = " + endTime);
+          //console.log("startDate = " + startTime);
+          //console.log("endDate = " + endTime);
           var diffMinutes = parseInt(endDate - startDate) / 1000 / 60;
           timeline.name = timeline.name + "(" + diffMinutes + "分钟)";
           totalMinutes += diffMinutes;

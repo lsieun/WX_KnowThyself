@@ -31,7 +31,8 @@ let util = {
     return n[1] ? n : '0' + n
   },
   getDateByStr(dateStr) {
-    let date = new Date(dateStr.replace("-", "/"));
+    //IOS只识别2017/01/01这样的日期格式
+    let date = new Date(dateStr.replace(/-/g, '/'));
     return date;
   },
   getDateByAddMinutes(date, intervalMinutes) {

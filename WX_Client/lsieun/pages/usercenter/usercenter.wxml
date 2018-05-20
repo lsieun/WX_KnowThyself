@@ -12,15 +12,16 @@
     <view class="weui-cells weui-cells_after-title">
       <view class="weui-cell weui-cell_access" bindtap='catUserInfo'>
         <view class="weui-cell__hd" style="position: relative;margin-right: 10px;">
-          <image src="{{userInfo.uavatar ? userInfo.uavatar : defaultPortrait}}" style="width: 128rpx; height: 128rpx; margin: 20rpx; border-radius: 50%; display: block" />
+           <!-- <image src="{{(userInfo.uavatar != null) ? userInfo.uavatar : defaultPortrait}}" style="width: 128rpx; height: 128rpx; margin: 20rpx; border-radius: 50%; display: block" />  -->
+           <image src="{{defaultPortrait}}" style="width: 128rpx; height: 128rpx; margin: 20rpx; border-radius: 50%; display: block" />
         </view>
         <view class="weui-cell__bd">
           <view>{{userInfo.uname}}</view>
           <view style="font-size: 13px;color: #888888;">{{userInfo.uid}}</view>
         </view>
-        <view class="weui-cell__ft weui-cell__ft_in-access" style="font-size: 0">
-          <view class="weui-badge weui-badge_dot" wx:if="{{userInfo.uid && !userInfo.uavatar}}" style="margin-left: 5px;margin-right: 5px;"></view>
-        </view>
+         <view class="weui-cell__ft weui-cell__ft_in-access" style="font-size: 0">
+          <!-- <view class="weui-badge weui-badge_dot" wx:if="{{userInfo.uid && !userInfo.uavatar}}" style="margin-left: 5px;margin-right: 5px;"></view> -->
+        </view> 
       </view>
     </view>
 
@@ -57,7 +58,7 @@
 
     </view>
 
-    <view class="weui-cells__title"></view>
+    <!-- <view class="weui-cells__title"></view>
     <view class="weui-cells weui-cells_after-title">
       <view class="weui-cell weui-cell_access">
         <view class="weui-cell__bd">
@@ -73,19 +74,20 @@
         </view>
         <view class="weui-cell__ft weui-cell__ft_in-access"></view>
       </view>
-    </view>
+    </view> -->
 
     <view class="weui-cells__title"></view>
     <view class="weui-cells weui-cells_after-title">
-      <view class="weui-cell weui-cell_access">
+      <view class="weui-cell weui-cell_access" bindtap='openSettings'>
         <image src="/images/settings_128x128.png" style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;"></image>
         <view class="weui-cell__bd">Settings</view>
         <view class="weui-cell__ft weui-cell__ft_in-access" style="font-size: 0">
           <view style="display: inline-block;vertical-align:middle; font-size: 17px;"></view>
-          <view class="weui-badge weui-badge_dot" style="margin-left: 5px;margin-right: 5px;"></view>
+          <!-- <view class="weui-badge weui-badge_dot" style="margin-left: 5px;margin-right: 5px;"></view> -->
         </view>
       </view>
     </view>
+
 
   </view>
 </view>

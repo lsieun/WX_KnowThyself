@@ -1,0 +1,79 @@
+<view class="page">
+    <view class="page__hd">
+        <view class="page__title">认识自己，万事有度</view>
+        <view class="page__desc">Know thyself, Nothing in excess</view>
+    </view>
+    <view class="page__bd">
+        <view class="weui-article">
+            <view class="weui-article__h1"></view>
+            <view class="weui-article__section">
+                <view class="weui-article__title"></view>
+                <view class="weui-article__section">
+                    <view class="weui-article__h3"></view>
+                    <view class="weui-article__p">
+                        唯以谦卑之心感谢阁下使用本小程序(lsieun)。
+                    </view>
+                    <view class="weui-article__p">
+                    本小程序的诞生和后续的发展，可能都会围绕着古希腊的那句名言“Know thyself, Nothing in excess”而进行。对这句名言，有人将之译为“认知自己，万事有度”。
+                    </view>
+
+                    <view class="weui-article__p">
+                    前段时间，敝人在Peter F. Drucker的《The Effective Executive》书中看到“Know Thyself”这个词，便也从此喜欢上了这个词；同时，在读Drucker的《The Effective Executive》后，也深感在进行自我管理的能力方面之弱。于是，便萌生了一个想法，做一个微信小程序，来对自己的任务和时间进行管理。
+                    </view>
+
+                    <view class="weui-article__p">
+                    最初的想法，是基于Drucker的管理思想来进行展开，做一个小工具，来辅助自己进行Drucker管理思想的践行；后来，在Youtube上看到一些关于与自己的Brain进行合作以克服眼前困难的一些视频，这一部分也让敝人收获甚多，但这些内容却又是Drucker管理思想不具备的东西；于是，最终将做小程序的想法的基点定位于“Know Thyself”之上，以期达到践行Drucker管理思想与内心思维改变上的一致性。
+                    </view>
+
+                    <view class="weui-article__p">
+                    </view>
+
+                    <view class="weui-article__p">
+                    </view>
+                    <view class="weui-article__p">
+                    在功能上，本小程序主要分为4个模块：Task模块、Timeline模块、Daily模块和Me模块。下面对各个功能模块进行简单介绍：
+                    </view>
+
+                    <view class="weui-article__p">
+                    Task模块：主要是对工作或生活当中的要做的事情进行优先级管理。无论是在工作中，还是在个人成长过程中，	我们都面临诸多需要做的事情；而我们常常面临的一个问题就是：将太多的时间，花费在了一些不必要的事情上，而真正重要的事情却没有去做。选择其中最重要的事情去做，选择那些对于未来的自己成长最有帮助的事情去做，一次只做好一件事情，或许这样有较大的机率收获一个更加有成果的一生。
+                    </view>
+
+                    <view class="weui-article__p">
+                    Timeline模块：主要是对自己的时间花费进行记录。时间，是做事情不可缺少的因素；做任何事情，都多多少少的花费一定的时间。在时间管理上，我们常常面临 的一个问题是：一天工作结束了，自己似乎做了很多事情，但却又感受不到什么成就，想要做出改变，但又无从下手。或许您可以尝试周期性的时间迭代来进行改变：首先，记录自己的时间花费；其次，通过观察自己的时间使用情况，分析出使用时间不合理的地方，舍弃不必要的、浪费时间的活动；最后，对自己的时间花费做出调整，并进入下一次的时间迭代观察。
+                    </view>
+
+                    <view class="weui-article__p">
+                    Daily模块：主要是分享一些思想，观点，以期望提供一些激励的作用和解决问题的思维方式。
+                    </view>
+
+                    <view class="weui-article__p">
+                    Me模块：主要是用户的个人信息和时间统计信息。
+                    </view>
+
+                    <view class="weui-article__p">
+                    在设计上，本小程序的风格偏于简洁，或者称之为“简陋”，其中很大原因是由于敝人在美工和实现技术上的诸多不足。因而，烦请您在使用的过程中，勿要见责。
+                    </view>
+
+                    <view class="weui-article__p">
+                    还有一个问题，就是：为什么要做这样一个小程序呢？世面上有许多进行任务管理和时间管理的App，为何要再进行“造轮子”呢？其中一个主要原因，可能是与我个人的使用手机习惯有关系，每天打开很多次的微信，而打开其他App的次数却很少；在微信里打开小程序，会让显得更方便一些。
+                    </view>
+
+                    <view class="weui-article__p">
+                    最后，谨以谦卑之心，希望本小程序能对您之工作或生活产生一点点积极的改变。
+                    </view>
+
+                    <view class="weui-article__p">
+                    </view>
+
+                    <view class="weui-article__p">
+                    </view>
+                </view>
+                <view class="weui-article__section">
+                    <view class="weui-article__h3"></view>
+                    <view class="weui-article__p">
+                    </view>
+                </view>
+            </view>
+        </view>
+    </view>
+</view>

@@ -37,6 +37,7 @@ let handler = {
     });
   },
   updateUserInfo: function (e) {
+    console.log("updateUserInfo ==> " + JSON.stringify(e));
     var that = this;
     wx.checkSession({
       success: function () {
@@ -60,6 +61,9 @@ let handler = {
           duration: 3000
         });
 
+      },
+      complete: function(){
+        console.log("wx.checkSession complete");
       }
     })
   }
@@ -132,12 +136,14 @@ function displayUserInfo(page) {
     var username = app.globalData.userInfo.uname;
     var gender = app.globalData.userInfo.ugender;
     var avatar = app.globalData.userInfo.uavatar;
+    console.log("avatar = " + avatar);
     page.setData({
       userid: userid,
       username: username,
       genderIndex: gender,
       avatar: avatar
     })
+    console.log("page.data.avatar = " + page.data.avatar);
   }
   else {
     setTimeout(function () {

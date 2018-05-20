@@ -15,7 +15,7 @@
     <view class="weui-cells__title" wx:if="{{taskToDoList  && taskToDoList.length > 0}}">需要完成的任务</view>
     <view class="weui-cells weui-cells_after-title" wx:if="{{taskToDoList  && taskToDoList.length > 0}}">
 
-      <block wx:for="{{taskToDoList}}" wx:for-item="task">
+      <block wx:for="{{taskToDoList}}" wx:key="uid" wx:for-item="task">
         <view class="weui-cell" bindlongtap='delTask' data-taskid='{{task.uid}}' data-taskname='{{task.name}}'>
           <view class="weui-cell__hd">
             <image bindtap='editTask' data-taskid='{{task.uid}}' src="{{taskPrioritys[task.priority]}}" style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;"></image>
@@ -30,7 +30,7 @@
 
     <view class="weui-cells__title" wx:if="{{taskDoneList && taskDoneList.length > 0}}">已经完成的任务</view>
     <view class="weui-cells weui-cells_after-title" wx:if="{{taskDoneList && taskDoneList.length > 0}}">
-      <block wx:for="{{taskDoneList}}" wx:for-item="task">
+      <block wx:for="{{taskDoneList}}" wx:key="uid" wx:for-item="task">
         <view class="weui-cell" bindlongtap='delTask' data-taskid='{{task.uid}}' data-taskname='{{task.name}}'>
           <view class="weui-cell__hd">
             <image bindtap='editTask' data-taskid='{{task.uid}}' src="{{taskPrioritys[task.priority]}}" style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;"></image>
@@ -44,10 +44,4 @@
     </view>
   </view>
 
-  <view class="weui-footer weui-footer_fixed-bottom">
-    <view class="weui-footer__links">
-      <navigator url="" class="weui-footer__link">认知自己 ● 管理自己</navigator>
-    </view>
-    <view class="weui-footer__text">Copyright © 2018-2022 lsieun.cn</view>
-  </view>
 </view>

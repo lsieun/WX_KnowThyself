@@ -94,4 +94,9 @@ public class AreaController {
         modelMap.put("success", areaService.deleteArea(areaId));
         return modelMap;
     }
+
+    @RequestMapping(value = "/hello")
+    public String hello(){
+        return "Know Thyself";
+    }
 }
